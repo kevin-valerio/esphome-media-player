@@ -175,6 +175,7 @@ globals:
 touchscreen:
   - platform: gsl3680
     id: tft_touch
+    display: tft_display
     reset_pin: GPIO22
     interrupt_pin: GPIO21
     transform:
@@ -203,6 +204,9 @@ touchscreen:
           int dx = id(touch_x_end) - id(touch_x_start);
           int dy = id(touch_y_end) - id(touch_y_start);
           int sy = id(touch_y_start);
+          ESP_LOGD("touch", "Swipe dx=%d dy=%d start=(%d,%d) end=(%d,%d)",
+                   dx, dy, id(touch_x_start), id(touch_y_start),
+                   id(touch_x_end), id(touch_y_end));
 
           // --- Dismiss actions prompt on tap ---
           if (!lv_obj_has_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN)) {
@@ -226,7 +230,7 @@ touchscreen:
           }
 
           // --- Horizontal swipe: track navigation (works when playing or paused) ---
-          if (abs(dx) > 50 && abs(dx) > abs(dy) * 2) {
+          if (abs(dx) > 80 && abs(dx) > abs(dy) * 2) {
             bool can_skip = false;
             if (id(is_tv_mode)) {
               std::string e = id(tv_media_player_entity).state;

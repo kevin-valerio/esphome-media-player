@@ -451,17 +451,18 @@ lvgl:
                   id: speakers_container
                   x: 700
                   y: 100
-                  width: 500
-                  height: 620
+                  width: 520
+                  height: 660
                   bg_opa: 0%
                   border_width: 0
                   pad_all: 0
-                  scrollable: false
+                  scrollable: true
+                  scrollbar_mode: auto
                   hidden: true
                   layout:
                     type: flex
                     flex_flow: COLUMN
-                    pad_row: 4
+                    pad_row: 2
                   widgets:
                     # --- Row 0 (selected speaker / leader) ---
                     - obj: &speaker_row
