@@ -38,9 +38,6 @@ text_sensor:
                 then:
                   - script.execute: show_track_view
                   - script.stop: start_hide_track_info_timer
-            - lvgl.widget.update:
-                id: album_art_background_widget
-                opa: 50%
             - lvgl.widget.hide: artwork_error_label
             - lvgl.label.update:
                 id: media_title_label
