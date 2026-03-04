@@ -309,12 +309,8 @@ sensor:
     on_value:
       - lambda: |-
           id(volume_updating_from_ha) = true;
-          int pct = (int)(x * 100.0f);
-          lv_arc_set_value(id(volume_arc), pct);
+          lv_arc_set_value(id(volume_arc), (int)(x * 100.0f));
           id(volume_updating_from_ha) = false;
-          char buf[8];
-          snprintf(buf, sizeof(buf), "%d%%", pct);
-          lv_label_set_text(id(volume_pct_label), buf);
 
 switch:
   - platform: template

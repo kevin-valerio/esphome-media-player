@@ -220,8 +220,8 @@ touchscreen:
             return;
           }
 
-          // --- Vertical swipe: settings panel open ---
-          if (dy > 30 && abs(dy) > abs(dx) * 2 && !id(is_panel_open)) {
+          // --- Vertical swipe: settings panel open (only from top 200px) ---
+          if (dy > 30 && sy < 200 && abs(dy) > abs(dx) * 2 && !id(is_panel_open)) {
             id(open_settings_panel).execute();
             return;
           }

@@ -280,11 +280,6 @@ script:
             id(speaker_vol_up_0), id(speaker_vol_up_1), id(speaker_vol_up_2), id(speaker_vol_up_3),
             id(speaker_vol_up_4), id(speaker_vol_up_5), id(speaker_vol_up_6), id(speaker_vol_up_7)
           };
-          lv_obj_t *vol_pcts[] = {
-            id(speaker_vol_pct_0), id(speaker_vol_pct_1), id(speaker_vol_pct_2), id(speaker_vol_pct_3),
-            id(speaker_vol_pct_4), id(speaker_vol_pct_5), id(speaker_vol_pct_6), id(speaker_vol_pct_7)
-          };
-
           for (int i = 0; i < 8; i++) {
             if (i < id(speaker_count)) {
               lv_obj_clear_flag(rows[i], LV_OBJ_FLAG_HIDDEN);
@@ -294,15 +289,10 @@ script:
                 if (btn_labels[i]) lv_label_set_text(btn_labels[i], "Remove");
                 lv_obj_clear_flag(vol_down[i], LV_OBJ_FLAG_HIDDEN);
                 lv_obj_clear_flag(vol_up[i], LV_OBJ_FLAG_HIDDEN);
-                lv_obj_clear_flag(vol_pcts[i], LV_OBJ_FLAG_HIDDEN);
-                char buf[8];
-                snprintf(buf, sizeof(buf), "%d%%", (int)(id(speaker_volumes)[i] * 100.0f));
-                lv_label_set_text(vol_pcts[i], buf);
               } else {
                 if (btn_labels[i]) lv_label_set_text(btn_labels[i], "Add");
                 lv_obj_add_flag(vol_down[i], LV_OBJ_FLAG_HIDDEN);
                 lv_obj_add_flag(vol_up[i], LV_OBJ_FLAG_HIDDEN);
-                lv_obj_add_flag(vol_pcts[i], LV_OBJ_FLAG_HIDDEN);
               }
             } else {
               lv_obj_add_flag(rows[i], LV_OBJ_FLAG_HIDDEN);

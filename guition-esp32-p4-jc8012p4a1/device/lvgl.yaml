@@ -356,20 +356,13 @@ lvgl:
                   max_value: 100
                   value: 30
                   hidden: true
-                  on_value:
-                    - lvgl.label.update:
-                        id: volume_pct_label
-                        text: !lambda |-
-                          char buf[8];
-                          snprintf(buf, sizeof(buf), "%d%%", (int)x);
-                          return std::string(buf);
 
               # Speaker list container
               - obj:
                   id: speakers_container
                   x: 60
                   y: 130
-                  width: 440
+                  width: 600
                   height: 670
                   bg_opa: 0%
                   border_width: 0
@@ -388,7 +381,7 @@ lvgl:
                     # --- Group Volume row (always first) ---
                     - obj:
                         id: group_volume_row
-                        width: 440
+                        width: 600
                         height: 72
                         bg_opa: 0%
                         border_width: 1
@@ -404,17 +397,19 @@ lvgl:
                           - label:
                               text: "Group Volume"
                               text_font: roboto30_font
-                              text_color: 0xCCCCCC
+                              text_color: 0xFFFFFF
                               align: left_mid
                               width: 280
                           - button:
                               align: right_mid
                               x: -100
-                              width: 40px
-                              height: 40px
-                              radius: 20
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               widgets:
@@ -425,22 +420,15 @@ lvgl:
                                     text_color: 0xFFFFFF
                               on_press:
                                 - script.execute: group_volume_down
-                          - label:
-                              id: volume_pct_label
-                              text: "30%"
-                              text_font: roboto19_font
-                              text_color: 0xCCCCCC
-                              align: right_mid
-                              x: -48
-                              width: 48
-                              text_align: center
                           - button:
                               align: right_mid
-                              width: 40px
-                              height: 40px
-                              radius: 20
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               widgets:
@@ -454,7 +442,7 @@ lvgl:
                     # --- Row 0 (selected speaker / leader) ---
                     - obj:
                         id: speaker_row_0
-                        width: 440
+                        width: 600
                         height: 72
                         bg_opa: 0%
                         border_width: 1
@@ -479,11 +467,13 @@ lvgl:
                               id: speaker_vol_down_0
                               align: right_mid
                               x: -100
-                              width: 40px
-                              height: 40px
-                              radius: 20
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
@@ -498,24 +488,16 @@ lvgl:
                                     id: speaker_volume_change
                                     slot: 0
                                     direction: -1
-                          - label:
-                              id: speaker_vol_pct_0
-                              text: ""
-                              text_font: roboto19_font
-                              text_color: 0xCCCCCC
-                              align: right_mid
-                              x: -48
-                              width: 48
-                              text_align: center
-                              hidden: true
                           - button:
                               id: speaker_vol_up_0
                               align: right_mid
-                              width: 40px
-                              height: 40px
-                              radius: 20
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
@@ -534,7 +516,7 @@ lvgl:
                     # --- Rows 1-7 (other speakers) ---
                     - obj: &speaker_row_template
                         id: speaker_row_1
-                        width: 440
+                        width: 600
                         height: 72
                         bg_opa: 0%
                         border_width: 1
@@ -559,11 +541,13 @@ lvgl:
                               id: speaker_vol_down_1
                               align: right_mid
                               x: -168
-                              width: 36px
-                              height: 36px
-                              radius: 18
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
@@ -578,25 +562,17 @@ lvgl:
                                     id: speaker_volume_change
                                     slot: 1
                                     direction: -1
-                          - label:
-                              id: speaker_vol_pct_1
-                              text: ""
-                              text_font: roboto19_font
-                              text_color: 0xCCCCCC
-                              align: right_mid
-                              x: -120
-                              width: 44
-                              text_align: center
-                              hidden: true
                           - button:
                               id: speaker_vol_up_1
                               align: right_mid
                               x: -76
-                              width: 36px
-                              height: 36px
-                              radius: 18
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
@@ -639,7 +615,7 @@ lvgl:
 
                     - obj:
                         id: speaker_row_2
-                        width: 440
+                        width: 600
                         height: 72
                         bg_opa: 0%
                         border_width: 1
@@ -664,11 +640,13 @@ lvgl:
                               id: speaker_vol_down_2
                               align: right_mid
                               x: -168
-                              width: 36px
-                              height: 36px
-                              radius: 18
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
@@ -683,25 +661,17 @@ lvgl:
                                     id: speaker_volume_change
                                     slot: 2
                                     direction: -1
-                          - label:
-                              id: speaker_vol_pct_2
-                              text: ""
-                              text_font: roboto19_font
-                              text_color: 0xCCCCCC
-                              align: right_mid
-                              x: -120
-                              width: 44
-                              text_align: center
-                              hidden: true
                           - button:
                               id: speaker_vol_up_2
                               align: right_mid
                               x: -76
-                              width: 36px
-                              height: 36px
-                              radius: 18
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
@@ -744,7 +714,7 @@ lvgl:
 
                     - obj:
                         id: speaker_row_3
-                        width: 440
+                        width: 600
                         height: 72
                         bg_opa: 0%
                         border_width: 1
@@ -769,11 +739,13 @@ lvgl:
                               id: speaker_vol_down_3
                               align: right_mid
                               x: -168
-                              width: 36px
-                              height: 36px
-                              radius: 18
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
@@ -788,25 +760,17 @@ lvgl:
                                     align: center
                                     text: "-"
                                     text_color: 0xFFFFFF
-                          - label:
-                              id: speaker_vol_pct_3
-                              text: ""
-                              text_font: roboto19_font
-                              text_color: 0xCCCCCC
-                              align: right_mid
-                              x: -120
-                              width: 44
-                              text_align: center
-                              hidden: true
                           - button:
                               id: speaker_vol_up_3
                               align: right_mid
                               x: -76
-                              width: 36px
-                              height: 36px
-                              radius: 18
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
@@ -849,7 +813,7 @@ lvgl:
 
                     - obj:
                         id: speaker_row_4
-                        width: 440
+                        width: 600
                         height: 72
                         bg_opa: 0%
                         border_width: 1
@@ -874,11 +838,13 @@ lvgl:
                               id: speaker_vol_down_4
                               align: right_mid
                               x: -168
-                              width: 36px
-                              height: 36px
-                              radius: 18
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
@@ -893,25 +859,17 @@ lvgl:
                                     align: center
                                     text: "-"
                                     text_color: 0xFFFFFF
-                          - label:
-                              id: speaker_vol_pct_4
-                              text: ""
-                              text_font: roboto19_font
-                              text_color: 0xCCCCCC
-                              align: right_mid
-                              x: -120
-                              width: 44
-                              text_align: center
-                              hidden: true
                           - button:
                               id: speaker_vol_up_4
                               align: right_mid
                               x: -76
-                              width: 36px
-                              height: 36px
-                              radius: 18
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
@@ -954,7 +912,7 @@ lvgl:
 
                     - obj:
                         id: speaker_row_5
-                        width: 440
+                        width: 600
                         height: 72
                         bg_opa: 0%
                         border_width: 1
@@ -979,11 +937,13 @@ lvgl:
                               id: speaker_vol_down_5
                               align: right_mid
                               x: -168
-                              width: 36px
-                              height: 36px
-                              radius: 18
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
@@ -998,25 +958,17 @@ lvgl:
                                     align: center
                                     text: "-"
                                     text_color: 0xFFFFFF
-                          - label:
-                              id: speaker_vol_pct_5
-                              text: ""
-                              text_font: roboto19_font
-                              text_color: 0xCCCCCC
-                              align: right_mid
-                              x: -120
-                              width: 44
-                              text_align: center
-                              hidden: true
                           - button:
                               id: speaker_vol_up_5
                               align: right_mid
                               x: -76
-                              width: 36px
-                              height: 36px
-                              radius: 18
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
@@ -1059,7 +1011,7 @@ lvgl:
 
                     - obj:
                         id: speaker_row_6
-                        width: 440
+                        width: 600
                         height: 72
                         bg_opa: 0%
                         border_width: 1
@@ -1084,11 +1036,13 @@ lvgl:
                               id: speaker_vol_down_6
                               align: right_mid
                               x: -168
-                              width: 36px
-                              height: 36px
-                              radius: 18
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
@@ -1103,25 +1057,17 @@ lvgl:
                                     align: center
                                     text: "-"
                                     text_color: 0xFFFFFF
-                          - label:
-                              id: speaker_vol_pct_6
-                              text: ""
-                              text_font: roboto19_font
-                              text_color: 0xCCCCCC
-                              align: right_mid
-                              x: -120
-                              width: 44
-                              text_align: center
-                              hidden: true
                           - button:
                               id: speaker_vol_up_6
                               align: right_mid
                               x: -76
-                              width: 36px
-                              height: 36px
-                              radius: 18
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
@@ -1164,7 +1110,7 @@ lvgl:
 
                     - obj:
                         id: speaker_row_7
-                        width: 440
+                        width: 600
                         height: 72
                         bg_opa: 0%
                         border_width: 1
@@ -1189,11 +1135,13 @@ lvgl:
                               id: speaker_vol_down_7
                               align: right_mid
                               x: -168
-                              width: 36px
-                              height: 36px
-                              radius: 18
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
@@ -1208,25 +1156,17 @@ lvgl:
                                     align: center
                                     text: "-"
                                     text_color: 0xFFFFFF
-                          - label:
-                              id: speaker_vol_pct_7
-                              text: ""
-                              text_font: roboto19_font
-                              text_color: 0xCCCCCC
-                              align: right_mid
-                              x: -120
-                              width: 44
-                              text_align: center
-                              hidden: true
                           - button:
                               id: speaker_vol_up_7
                               align: right_mid
                               x: -76
-                              width: 36px
-                              height: 36px
-                              radius: 18
-                              bg_color: 0x333333
-                              border_width: 0
+                              width: 58px
+                              height: 58px
+                              radius: 29
+                              bg_opa: 0%
+                              border_width: 2
+                              border_color: 0xFFFFFF
+                              border_opa: 100%
                               shadow_width: 0
                               pad_all: 0
                               hidden: true
