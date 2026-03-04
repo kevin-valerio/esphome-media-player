@@ -226,7 +226,7 @@ touchscreen:
           }
 
           // --- Horizontal swipe: track navigation (works when playing or paused) ---
-          if (abs(dx) > 100 && abs(dx) > abs(dy) * 2) {
+          if (abs(dx) > 50 && abs(dx) > abs(dy) * 2) {
             bool can_skip = false;
             if (id(is_tv_mode)) {
               std::string e = id(tv_media_player_entity).state;
