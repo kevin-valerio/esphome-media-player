@@ -297,7 +297,6 @@ script:
                 lv_obj_set_style_bg_opa(cards[i], LV_OPA_COVER, 0);
                 lv_obj_set_style_bg_color(cards[i], lv_color_hex(0x5A5A5A), 0);
                 lv_obj_set_style_border_width(cards[i], 0, 0);
-                lv_obj_set_style_flex_main_place(cards[i], LV_FLEX_ALIGN_SPACE_BETWEEN, 0);
                 int pct = (int)(id(speaker_volumes)[i] * 100.0f);
                 lv_obj_clear_flag(sliders[i], LV_OBJ_FLAG_HIDDEN);
                 lv_slider_set_value(sliders[i], pct, LV_ANIM_OFF);
@@ -306,7 +305,6 @@ script:
                 lv_obj_set_style_bg_opa(cards[i], LV_OPA_COVER, 0);
                 lv_obj_set_style_bg_color(cards[i], lv_color_hex(0x1E1E1E), 0);
                 lv_obj_set_style_border_width(cards[i], 0, 0);
-                lv_obj_set_style_flex_main_place(cards[i], LV_FLEX_ALIGN_START, 0);
                 lv_obj_add_flag(sliders[i], LV_OBJ_FLAG_HIDDEN);
               }
             } else {
@@ -317,9 +315,7 @@ script:
           // Update group volume card with leader's volume
           int group_pct = (int)(id(speaker_volumes)[0] * 100.0f);
           lv_slider_set_value(id(group_vol_slider), group_pct, LV_ANIM_OFF);
-          char gv_buf[8];
-          snprintf(gv_buf, sizeof(gv_buf), "%d%%", group_pct);
-          lv_label_set_text(id(group_vol_label), gv_buf);
+          lv_obj_add_flag(id(group_vol_label), LV_OBJ_FLAG_HIDDEN);
 
   # ---------------------------------------------------------------------------
   # Join / unjoin a speaker by slot index (stored in a global before calling).

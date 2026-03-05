@@ -398,8 +398,9 @@ lvgl:
                         layout:
                           type: flex
                           flex_flow: COLUMN
-                          flex_align_main: space_between
+                          flex_align_main: start
                           flex_align_cross: start
+                          pad_row: 12
                         widgets:
                           - obj:
                               width: 160
@@ -466,8 +467,9 @@ lvgl:
                         layout:
                           type: flex
                           flex_flow: COLUMN
-                          flex_align_main: space_between
+                          flex_align_main: start
                           flex_align_cross: start
+                          pad_row: 12
                         widgets:
                           - obj:
                               width: 160
@@ -540,8 +542,9 @@ lvgl:
                         layout:
                           type: flex
                           flex_flow: COLUMN
-                          flex_align_main: space_between
+                          flex_align_main: start
                           flex_align_cross: start
+                          pad_row: 12
                         widgets:
                           - obj:
                               width: 160
@@ -614,8 +617,9 @@ lvgl:
                         layout:
                           type: flex
                           flex_flow: COLUMN
-                          flex_align_main: space_between
+                          flex_align_main: start
                           flex_align_cross: start
+                          pad_row: 12
                         widgets:
                           - obj:
                               width: 160
@@ -688,8 +692,9 @@ lvgl:
                         layout:
                           type: flex
                           flex_flow: COLUMN
-                          flex_align_main: space_between
+                          flex_align_main: start
                           flex_align_cross: start
+                          pad_row: 12
                         widgets:
                           - obj:
                               width: 160
@@ -762,8 +767,9 @@ lvgl:
                         layout:
                           type: flex
                           flex_flow: COLUMN
-                          flex_align_main: space_between
+                          flex_align_main: start
                           flex_align_cross: start
+                          pad_row: 12
                         widgets:
                           - obj:
                               width: 160
@@ -836,8 +842,9 @@ lvgl:
                         layout:
                           type: flex
                           flex_flow: COLUMN
-                          flex_align_main: space_between
+                          flex_align_main: start
                           flex_align_cross: start
+                          pad_row: 12
                         widgets:
                           - obj:
                               width: 160
@@ -910,8 +917,9 @@ lvgl:
                         layout:
                           type: flex
                           flex_flow: COLUMN
-                          flex_align_main: space_between
+                          flex_align_main: start
                           flex_align_cross: start
+                          pad_row: 12
                         widgets:
                           - obj:
                               width: 160
@@ -984,8 +992,9 @@ lvgl:
                         layout:
                           type: flex
                           flex_flow: COLUMN
-                          flex_align_main: space_between
+                          flex_align_main: start
                           flex_align_cross: start
+                          pad_row: 12
                         widgets:
                           - obj:
                               width: 160
