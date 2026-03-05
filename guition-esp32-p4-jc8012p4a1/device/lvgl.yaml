@@ -396,7 +396,7 @@ lvgl:
                         pad_left: 20
                         pad_right: 20
                         pad_top: 20
-                        pad_bottom: 24
+                        pad_bottom: 44
                         scrollable: false
                         layout:
                           type: flex
@@ -456,7 +456,10 @@ lvgl:
                         bg_color: 0x5A5A5A
                         bg_opa: 100%
                         border_width: 0
-                        pad_all: 20
+                        pad_left: 20
+                        pad_right: 20
+                        pad_top: 20
+                        pad_bottom: 44
                         scrollable: false
                         hidden: true
                         layout:
@@ -519,7 +522,10 @@ lvgl:
                         bg_color: 0x5A5A5A
                         bg_opa: 100%
                         border_width: 0
-                        pad_all: 20
+                        pad_left: 20
+                        pad_right: 20
+                        pad_top: 20
+                        pad_bottom: 44
                         scrollable: false
                         hidden: true
                         on_click:
@@ -586,7 +592,10 @@ lvgl:
                         bg_color: 0x5A5A5A
                         bg_opa: 100%
                         border_width: 0
-                        pad_all: 20
+                        pad_left: 20
+                        pad_right: 20
+                        pad_top: 20
+                        pad_bottom: 44
                         scrollable: false
                         hidden: true
                         on_click:
@@ -653,7 +662,10 @@ lvgl:
                         bg_color: 0x5A5A5A
                         bg_opa: 100%
                         border_width: 0
-                        pad_all: 20
+                        pad_left: 20
+                        pad_right: 20
+                        pad_top: 20
+                        pad_bottom: 44
                         scrollable: false
                         hidden: true
                         on_click:
@@ -720,7 +732,10 @@ lvgl:
                         bg_color: 0x5A5A5A
                         bg_opa: 100%
                         border_width: 0
-                        pad_all: 20
+                        pad_left: 20
+                        pad_right: 20
+                        pad_top: 20
+                        pad_bottom: 44
                         scrollable: false
                         hidden: true
                         on_click:
@@ -787,7 +802,10 @@ lvgl:
                         bg_color: 0x5A5A5A
                         bg_opa: 100%
                         border_width: 0
-                        pad_all: 20
+                        pad_left: 20
+                        pad_right: 20
+                        pad_top: 20
+                        pad_bottom: 44
                         scrollable: false
                         hidden: true
                         on_click:
@@ -854,7 +872,10 @@ lvgl:
                         bg_color: 0x5A5A5A
                         bg_opa: 100%
                         border_width: 0
-                        pad_all: 20
+                        pad_left: 20
+                        pad_right: 20
+                        pad_top: 20
+                        pad_bottom: 44
                         scrollable: false
                         hidden: true
                         on_click:
@@ -921,7 +942,10 @@ lvgl:
                         bg_color: 0x5A5A5A
                         bg_opa: 100%
                         border_width: 0
-                        pad_all: 20
+                        pad_left: 20
+                        pad_right: 20
+                        pad_top: 20
+                        pad_bottom: 44
                         scrollable: false
                         hidden: true
                         on_click:
