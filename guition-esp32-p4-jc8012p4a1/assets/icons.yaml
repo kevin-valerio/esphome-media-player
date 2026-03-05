@@ -20,6 +20,13 @@ font:
       - "\U000F0D38"  # mdi-speaker-multiple
       - "\U000F0156"  # mdi-close
   - file: 'https://github.com/Templarian/MaterialDesign-Webfont/raw/v7.4.47/fonts/materialdesignicons-webfont.ttf'
+    id: icon_font_small
+    size: 22
+    bpp: 4
+    glyphs:
+      - "\U000F0415"  # mdi-plus
+      - "\U000F0374"  # mdi-minus
+  - file: 'https://github.com/Templarian/MaterialDesign-Webfont/raw/v7.4.47/fonts/materialdesignicons-webfont.ttf'
     id: icon_font_large
     size: 50
     bpp: 4
