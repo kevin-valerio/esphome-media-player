@@ -61,6 +61,39 @@ packages:
 
 Adjust `name` and `friendly_name`. Optionally set `media_player` and `tv_media_player` entity IDs in substitutions, or leave them empty and set them later in Home Assistant. `tv_media_player` is only needed if your speaker has a TV source (see [TV source](/configurable-settings#tv-source)).
 
+### Screen rotation (ESP32-S3 only)
+
+If you need to rotate the display to match your mounting orientation or power cable direction, add the `display_rotation` and touch mirror substitutions to your config. The display rotation can be set to `0`, `90`, `180`, or `270` degrees, but the touch input must be adjusted to match:
+
+| Rotation | `touch_mirror_x` | `touch_mirror_y` |
+|----------|-------------------|-------------------|
+| `0`      | `"false"`         | `"false"`         |
+| `90`     | `"true"`          | `"false"`         |
+| `180`    | `"true"`          | `"true"`          |
+| `270`    | `"false"`         | `"true"`          |
+
+For example, to rotate the display 90°:
+
+```yaml
+substitutions:
+  name: "your-device-name"
+  friendly_name: "Your Room Music"
+  display_rotation: "90"
+  touch_mirror_x: "true"
+  touch_mirror_y: "false"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+packages:
+  music_dashboard:
+    url: https://github.com/jtenniswood/esphome-media-player
+    files: [guition-esp32-s3-4848s040/packages.yaml]
+    ref: main
+    refresh: 1s
+```
+
 ## Step 3: Set WiFi secrets
 
 1. In the ESPHome dashboard, open **Secrets**.

@@ -19,7 +19,7 @@ If your speaker has a "TV" source (e.g. a home theater setup), you can optionall
 1. Under **Configuration**, find the **Sonos Tv Source** field.
 2. Enter the entity ID of the media player that represents the TV source device (e.g. `media_player.apple_tv`).
 
-Leave the field empty if your speaker doesn't have a TV source or you don't want this feature — the controller works normally without it. The device reboots when this value is changed (the same as changing the primary media player). See [TV source mode](/features#tv-source-mode-optional) for how the feature works.
+Leave the field empty if your speaker doesn't have a TV source or you don't want this feature — the controller works normally without it. The device reboots when this value is changed (the same as changing the primary media player). See [TV source mode](/#tv-source-mode-optional) for how the feature works.
 
 ## Backlight and screensaver
 

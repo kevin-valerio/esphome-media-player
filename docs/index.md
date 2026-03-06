@@ -12,77 +12,58 @@ A touchscreen media controller for Home Assistant: album art, track info, and to
 
 [Guition ESP32-S3 4848S040 (4")](/devices/esp32-s3-4848s040)
 
-## What you need
+<div class="tip custom-block" style="padding-top: 8px">
+  Ready to set up your device? Follow the <a href="/installation">Installation Guide</a>.
+</div>
 
-- A supported panel (see [Devices](/devices/esp32-s3-4848s040))
-- USB-C cable
-- **Google Chrome** or **Microsoft Edge** on desktop (for web flashing)
-- **Home Assistant** with a media player entity already set up
+## Learn more
 
-## Step 1: Flash the firmware
-
-Connect your panel to your computer via USB-C, select your device from the dropdown below, then click Install.
-
-<ClientOnly>
-  <InstallButton />
-  <template #fallback>
-    <p><em>Loading installer…</em></p>
-  </template>
-</ClientOnly>
-
-If the installer doesn’t detect your device, try the [troubleshooting](/troubleshooting#flashing-doesnt-work) section. You may need the [CH340 USB driver](https://www.wch-ic.com/downloads/CH341SER_EXE.html) on your computer.
-
-## Step 2: Connect to WiFi
-
-After flashing, the device starts a WiFi hotspot:
-
-1. Connect to the hotspot from your phone or computer.
-2. When the captive portal opens, enter your home WiFi name and password.
-3. The device restarts and joins your network.
-
-## Step 3: Adopt in Home Assistant
-
-When the device is on your network:
-
-1. Open **Settings → Devices & Services** and look for a new ESPHome notification.
-2. Click **Configure** and complete the adoption steps.
-3. The device and its entities will appear in Home Assistant.
-
-## Step 4: Select your media player
-
-1. Go to **Settings → Devices & Services → ESPHome** and click your device.
-2. Under **Configuration**, find the **Media Player** field.
-3. Enter the entity ID of the player you want to control (e.g. `media_player.living_room`).
-
-The display will start showing the current track. You can change this later without reflashing. For more detail, see [How do I configure a media player?](/troubleshooting#how-do-i-configure-a-media-player).
-
-**Optional:** If your speaker has a TV source (e.g. a home theater setup), you can also set the **Sonos Tv Source** field to show now-playing info from the TV media player when the speaker switches to its TV input. This is not required — see [Settings](/configurable-settings#tv-source) for details.
-
-## Step 5: Enable device controls
-
-To let the panel control play, pause, skip, and volume:
-
-1. Go to **Settings → Devices & Services → Integrations** and click **ESPHome** (not the device count).
-2. Find your device and open the **cog** to edit settings.
-3. Turn on **“Allow the device to perform Home Assistant actions”** and save.
-
-If the controls don’t respond, see [Controls don’t respond](/troubleshooting#controls-dont-respond).
-
-## Automatic updates
-
-The device checks for firmware updates about every 6 hours. When one is available, a **Firmware Update** entity appears in Home Assistant; you can run the update from there.
-
-## Viewing device logs
-
-Artwork load errors (e.g. when album art fails to download) are logged by the device. To see these messages in Home Assistant for remote debugging:
-
-1. Go to **Settings → Devices & Services → ESPHome** and open your device.
-2. Click **Configure** and enable **Subscribe to logs from the device**.
-3. When enabled, the device sends logs to Home Assistant. View them in **Settings → System → Logs** or **Developer Tools → Logs**. Filter by your device name or search for the `artwork` tag to find artwork-related errors.
-
-## Next steps
-
-- [Features](/features) — album art, touch controls, screensaver
+- [Installation](/installation) — flash, connect, and configure your device
+- [Speaker Grouping](/speaker-grouping) — multi-room speaker control
 - [Settings](/configurable-settings) — brightness, timeouts, track info
 - [Manual installation](/manual-setup) — flash via ESPHome dashboard instead of the web installer
 - [Troubleshooting](/troubleshooting) — common issues and fixes
+
+## Features
+
+Overview of what the media controller does. Many features are user-configurable from the device page in Home Assistant (**Settings → Devices & Services → ESPHome** → your device) — no YAML or reflashing needed. See [Settings](/configurable-settings) for the full reference.
+
+### Album art display
+
+Full-screen album art is loaded from your Home Assistant instance. When a new track starts, the current artwork dims to 40% while the new image downloads, then fades back to full brightness. If artwork doesn't appear, see [Troubleshooting](/troubleshooting#the-artwork-isnt-loading).
+
+### Now playing info
+
+The screen shows song title, artist, elapsed and remaining time, and a progress bar. The bar updates every second with smooth interpolation between position updates from Home Assistant. Tap the time label to toggle between elapsed/remaining and elapsed/total duration display. The default mode is set by the **Playback: Show Remaining Time** switch in [Settings](/configurable-settings).
+
+### TV source mode (optional)
+
+If your speaker has a "TV" source (e.g. a home theater setup), the controller can optionally show now-playing info from the TV's media player (e.g. Apple TV, Chromecast) when the speaker's source changes to "TV". This feature is entirely optional and the controller works without it.
+
+- **Automatic switching** — when the primary media player's source becomes "TV", the UI shows title, artist, artwork, and progress from the secondary TV media player. When the source changes back, the UI reverts to the primary player.
+- **Idle state** — when the TV player is idle, off, or on standby, the screen displays "TV" on a black background with playback controls hidden. Controls reappear when the TV player starts playing again.
+- **Routed controls** — play/pause, next, and previous are automatically sent to whichever player is active (music or TV).
+
+To enable this, set the optional **Sonos Tv Source** field in the device's configuration to the entity ID of your TV media player (e.g. `media_player.apple_tv`). Leave it empty to disable. See [Settings](/configurable-settings#tv-source) for details.
+
+### Speaker grouping
+
+Group and ungroup multi-room speakers directly from the touchscreen. A speaker icon appears on the main screen — tap it to open a panel listing all your speakers with toggle switches to group or ungroup them. 
+
+This feature works with any speaker platform that supports grouping in Home Assistant. Requires a one-time setup of a template helper in Home Assistant — see [Speaker Grouping](/speaker-grouping) for instructions.
+
+### Touch controls
+
+- **Play / Pause** — button in the bottom-right toggles playback.
+- **Next / Previous** — swipe left or right to change tracks.
+- **Volume** — swipe down to open the settings panel with an arc dial. Drag the knob or use + / − for 1% steps. Swipe up to close.
+- **Hide / Show UI** — tap the screen during playback to hide or show the overlay (4" only).
+
+### Screensaver
+
+When playback is paused, the device uses a two-stage screensaver:
+
+1. After **Timeout: Dimming** elapses, the screen dims to **Day/Night: Dim Brightness**.
+2. After **Timeout: Screen Off** elapses, the screen turns off (unless disabled by the **Day/Night: Screen Saver** switch, in which case it stays dimmed).
+
+Active brightness (**Day/Night: Active Brightness**) adjusts automatically between day and night based on the `sun.sun` entity in Home Assistant. All of these settings are configurable from the device page in Home Assistant (see [Settings](/configurable-settings)).

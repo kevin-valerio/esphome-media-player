@@ -17,15 +17,15 @@ Speaker grouping requires speakers that support the `media_player.join` and `med
 This feature relies on Home Assistant's `media_player.join` and `media_player.unjoin` services. These are only available on speaker platforms that support grouping. If your speakers don't support these services, the grouping controls will not work.
 
 
-| Platform             | Supported | Notes                      |
-| -------------------- | --------- | -------------------------- |
-| Sonos                | Yes       | Tested and confirmed       |
-| Google Cast          | Yes       | Supports `join` / `unjoin` |
-| HEOS (Denon/Marantz) | Yes       | Supports `join` / `unjoin` |
-| Yamaha MusicCast     | Yes       | Supports `join` / `unjoin` |
-| LinkPlay             | Yes       | Supports `join` / `unjoin` |
-| Bluesound            | Yes       | Supports `join` / `unjoin` |
-| Bang & Olufsen       | Yes       | Supports `join` / `unjoin` |
+| Platform             | Supported | Integration name     |
+| -------------------- | --------- | -------------------- |
+| Bang & Olufsen       | Yes       | `bang_olufsen`       |
+| Bluesound            | Yes       | `bluesound`          |
+| Google Cast          | Yes       | `cast`               |
+| Heos                 | Yes       | `heos`               |
+| LinkPlay             | Yes       | `linkplay`           |
+| Sonos                | Yes       | `sonos`              |
+| Yamaha               | Yes       | `yamaha_musiccast`   |
 
 
 ## Setup
@@ -36,23 +36,19 @@ One template sensor helper needs to be created in Home Assistant. This is done e
 
 1. Go to **Settings → Devices & Services → Helpers** tab
 2. Click **+ Create Helper** → **Template** → **Template a sensor**
-3. Fill in the following:
-
-
-| Field          | Value           |
-| -------------- | --------------- |
-| Name           | `Speaker Group` |
-| State template | see below       |
-
-
-Paste this into the **State template** field, replacing `"sonos"` with the name of your speaker integration (e.g. `"cast"`, `"heos"`, `"yamaha_musiccast"`):
+3. Set the **Name** to `Speaker Group`
+4. Paste into the **State template** field
 
 ```
 {%- set s = integration_entities("sonos") | select("match", "media_player") | list -%}
 {{ s | map("replace", "media_player.", "") | join(",") }}|{{ s | map("state_attr", "friendly_name") | join(",") }}|{{ s | map("state_attr", "volume_level") | join(",") }}
 ```
 
-Leave all other fields as default and click **Submit**.
+::: info
+If you're using a different platform, replace `"sonos"` with your integration name from the table above.
+:::
+
+5. Leave all other fields as default and click **Submit**.
 
 ### Verify
 
@@ -62,26 +58,8 @@ Go to **Developer Tools → States** and search for `sensor.speaker_group`. It s
 office,kitchen|Office,Kitchen|0.45,0.6
 ```
 
-The ESPHome panel subscribes to this sensor automatically at boot. If the speaker page is empty, reboot the screen to see the update.
+The device subscribes to this sensor automatically at boot. If the speaker page is empty, reboot the screen to see the update.
 
 ## Behavior
 
 - The speaker list appears in the settings panel (swipe down) when there are at least two speakers from the configured integration
-- Up to 8 speakers are supported
-
-## State template reference
-
-If you prefer YAML over the UI, you can add this to your `configuration.yaml` or a `packages/` file. Replace `"sonos"` with your integration name:
-
-```yaml
-template:
-  - sensor:
-      - name: "Speaker Group"
-        unique_id: esphome_speaker_group
-        state: >-
-          {%- set s = integration_entities("sonos")
-                      | select("match", "media_player")
-                      | list -%}
-          {{ s | map("replace", "media_player.", "") | join(",") }}|{{ s | map("state_attr", "friendly_name") | join(",") }}|{{ s | map("state_attr", "volume_level") | join(",") }}
-```
-
