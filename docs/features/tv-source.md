@@ -1,5 +1,7 @@
 # TV Source
 
+![TV Source](../images/guition-esp32-p4-jc8012p4a1-tvsource.jpg)
+
 If your speaker has a "TV" source (e.g. a home theater setup), the controller can show now-playing info from the TV's media player (e.g. Apple TV, Chromecast) when the speaker's source changes to "TV". This feature is entirely optional — the controller works without it.
 
 ## How it works
