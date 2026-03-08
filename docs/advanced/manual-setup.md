@@ -17,7 +17,7 @@ In the ESPHome dashboard, create a new YAML configuration for your device. Use o
 substitutions:
   name: "music-dashboard"
   friendly_name: "Music Dashboard"
-  # ha_host: "homeassistant.local"  # Home Assistant hostname (change if HA runs on a different host)
+  # ha_host: "homeassistant.local"  # Home Assistant hostname (change if HA runs on a different host or IP)
   # ha_port: "8123"  # Home Assistant port (change if HA runs on a non-standard port)
 
 wifi:
@@ -38,7 +38,7 @@ packages:
 substitutions:
   name: "music-dashboard-10inch"
   friendly_name: "Music Dashboard 10inch"
-  # ha_host: "homeassistant.local"  # Home Assistant hostname (change if HA runs on a different host)
+  # ha_host: "homeassistant.local"  # Home Assistant hostname (change if HA runs on a different host or IP)
   # ha_port: "8123"  # Home Assistant port (change if HA runs on a non-standard port)
 
 wifi:
