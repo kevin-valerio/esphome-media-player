@@ -32,6 +32,10 @@ If auto-update is disabled, you can update at any time:
 
 The device will download the new firmware, flash it, and reboot automatically. This typically takes 1–2 minutes depending on your network speed.
 
+::: tip
+During the firmware update the screen will flash — this is completely normal. It should last about 30 seconds before the device reboots. Just let it finish.
+:::
+
 ## Disabling automatic updates
 
 Toggle the **Auto Update** switch off on the device page. The device will still check for updates on the configured schedule, but will only report availability without installing. You can install manually at any time using the steps above.
