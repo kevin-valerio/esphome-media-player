@@ -322,28 +322,6 @@ lvgl:
             scrollbar_mode: "off"
             hidden: true
             widgets:
-              # Close button (top-right)
-              - button:
-                  id: speakers_close_button
-                  align: top_right
-                  x: -21
-                  y: 26
-                  width: 48px
-                  height: 48px
-                  radius: 24
-                  bg_opa: 0%
-                  border_width: 0
-                  shadow_width: 0
-                  pad_all: 0
-                  widgets:
-                    - label:
-                        text_font: $icon_font
-                        align: center
-                        text: $icon_close
-                        text_color: 0xFFFFFF
-                  on_press:
-                    - script.execute: close_settings_panel
-
               # Volume arc dial (single-speaker mode)
               - arc:
                   id: volume_arc
@@ -454,6 +432,28 @@ lvgl:
                           int v = lv_arc_get_value(id(volume_arc)) + 1;
                           if (v > 100) v = 100;
                           return v;
+
+              # Close button (top-right, rendered after arc for touch priority)
+              - button:
+                  id: speakers_close_button
+                  align: top_right
+                  x: -21
+                  y: 26
+                  width: 48px
+                  height: 48px
+                  radius: 24
+                  bg_opa: 0%
+                  border_width: 0
+                  shadow_width: 0
+                  pad_all: 0
+                  widgets:
+                    - label:
+                        text_font: $icon_font
+                        align: center
+                        text: $icon_close
+                        text_color: 0xFFFFFF
+                  on_press:
+                    - script.execute: close_settings_panel
 
               # Title
               - label:
