@@ -28,7 +28,7 @@ export default {
         items: [
           { text: 'Firmware Updates', link: '/features/firmware-updates' },
           { text: 'Speaker Grouping', link: '/features/speaker-grouping' },
-          { text: 'Linked Media Player', link: '/features/linked-media-player' },
+          { text: 'Source Inputs', link: '/features/source-inputs' },
           { text: 'Settings', link: '/features/settings' },
         ],
       },

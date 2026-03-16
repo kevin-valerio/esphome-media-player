@@ -27,3 +27,4 @@ Tested with:
 
 - **TV** (soundbars): Sonos Beam, Sonos Arc
 - **Line In** (speakers/amps): Sonos Five, Sonos Play:5, Sonos Amp, Sonos Port
+- **Source input media players**: Apple TV, Chromecast

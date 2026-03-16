@@ -2,6 +2,8 @@
 
 The device checks for firmware updates automatically and can install them over-the-air — no USB cable or reflashing needed. Update behavior is fully controllable from the device page in Home Assistant.
 
+![Auto Update Controls](../images/ha-auto-update.png)
+
 ## How it works
 
 The device periodically checks for a new firmware version from the project's GitHub Pages manifest. When an update is available:
@@ -30,10 +32,10 @@ If auto-update is disabled, you can update at any time:
 2. Press the **Install Latest Firmware** button to check for the latest version.
 3. If an update is available, the **Firmware Update** entity will show the new version — click **Install** to apply it.
 
-The device will download the new firmware, flash it, and reboot automatically. This typically takes 1–2 minutes depending on your network speed.
+Pressing **Install Latest Firmware** begins the update immediately on the device. The screen may flicker during the download and installation — this is normal and typically lasts 1–2 minutes depending on your network speed. The device will reboot automatically once complete.
 
-::: tip
-During the firmware update the screen will flash — this is completely normal. It should last about 30 seconds before the device reboots. Just let it finish.
+::: warning
+Do not interrupt or power down the device during a firmware update. If something goes wrong, use the [web installer](/installation) to reset the device back to factory default.
 :::
 
 ## Disabling automatic updates
