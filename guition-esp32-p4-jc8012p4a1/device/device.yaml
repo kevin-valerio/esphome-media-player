@@ -73,6 +73,19 @@ api:
           id(ha_base_url) = "http://${ha_host}:${ha_port}";
         }
     - lvgl.widget.hide: ha_setup_prompt
+    - lambda: |-
+        std::string old_val = id(tv_media_player_entity).state;
+        if (!old_val.empty() && id(linked_media_player_entity).state.empty()) {
+          ESP_LOGI("media_select", "Migrating TV entity '%s' to linked media player", old_val.c_str());
+          auto call = id(linked_media_player_entity).make_call();
+          call.set_value(old_val);
+          call.perform();
+        }
+        if (!old_val.empty()) {
+          auto call = id(tv_media_player_entity).make_call();
+          call.set_value("");
+          call.perform();
+        }
     - script.execute: subscribe_media_player
     - script.execute: subscribe_linked_media_player
   on_client_disconnected:

@@ -53,6 +53,18 @@ text:
             - delay: 200ms
             - lambda: 'App.safe_reboot();'
 
+  # Migration: reads the old "Sonos Tv Source" NVS value so it can be
+  # copied to linked_media_player_entity on first boot after upgrade.
+  # Safe to remove once all devices have updated past v1.6.0.
+  - platform: template
+    id: tv_media_player_entity
+    internal: true
+    optimistic: true
+    restore_value: true
+    initial_value: ""
+    min_length: 0
+    max_length: 100
+
   - platform: template
     name: "Linked Media Player"
     id: linked_media_player_entity
