@@ -456,7 +456,7 @@ lvgl:
                   border_width: 0
                   pad_left: 20
                   pad_right: 20
-                  pad_top: 32
+                  pad_top: 24
                   pad_bottom: 16
                   scrollable: true
                   scrollbar_mode: auto
