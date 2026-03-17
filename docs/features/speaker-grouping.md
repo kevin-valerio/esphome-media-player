@@ -19,7 +19,6 @@ Control multi-room speaker groups directly from the touchscreen panel. The setti
 
 This feature relies on Home Assistant's `media_player.join` and `media_player.unjoin` services. These are only available on speaker platforms that support grouping. If your speakers don't support these services, the grouping controls will not work.
 
-
 | Platform             | Supported    | Integration name       |
 | -------------------- | ------------ | ---------------------- |
 | Sonos                | Yes          | `sonos`                |
@@ -30,10 +29,6 @@ This feature relies on Home Assistant's `media_player.join` and `media_player.un
 | Bluesound            | Yes          | `bluesound`            |
 | Bang & Olufsen       | Yes          | `bang_olufsen`         |
 | Music Assistant      | Experimental | `music_assistant`      |
-
-> [!TIP] Music Assistant
-> Music Assistant support is **experimental** — it has not been fully tested and may not work with all MA player providers. Only same-type players (e.g. all Sonos or all Cast) can be grouped via sync groups. Cross-provider "universal groups" are managed within Music Assistant's own UI. If you encounter issues, please [open an issue on GitHub](https://github.com/jtenniswood/esphome-media-player/issues).
-
 
 ## Setup the Speaker Group sensor
 
@@ -56,6 +51,8 @@ template:
             {%- set s = integration_entities("sonos") | select("match", "media_player") | list -%}
             {{ s | map("replace", "media_player.", "") | join(",") }}|{{ s | map("state_attr", "friendly_name") | join(",") }}|{{ s | map("state_attr", "volume_level") | join(",") }}
 ```
+
+You *must* restart Home Assistant in order for the new template to be loaded.
 
 ### Music Assistant (Experimental)
 
@@ -88,18 +85,27 @@ template:
 
 ### Verify the sensor
 
-Restart Home Assistant after saving. To verify, check **Developer Tools → States** and look for `sensor.speaker_group` — the state should show the number of speakers and the `data` attribute should contain the pipe-delimited speaker info.
+Verify the template sensor exists in Home Assistant by going to **Settings**, clicking the search icon (top right corner):
 
-> **Migrating from the old UI helper?** If you previously created a `Speaker Group` helper via **Settings → Helpers**, delete it first to avoid a naming conflict.
+![Settings search icon](../images/ha-group-debug-1.png)
+
+Search for **Developer Tools** and open it:
+
+![Search for Developer Tools](../images/ha-group-debug-2.png)
+
+Select the **States** tab and search for `sensor.speaker_group`:
+
+![Speaker group sensor in States](../images/ha-group-debug-3.png)
+
+You should see a list of your speakers and their volume levels if it's working.
+
+If the sensor doesn't appear or shows no data:
+
+- Restart Home Assistant to load the new template.
+- Make sure you added the template to `configuration.yaml`.
 
 ## Behavior
 
 - The speaker list appears in the settings panel (swipe down) when there are at least two speakers from the configured integration
-
-## Music Assistant notes
-
-Music Assistant support is experimental. Keep the following in mind:
-
-- **Same-type grouping only** — `media_player.join` creates sync groups, which require all players to use the same provider (e.g. all Sonos or all Cast). Attempting to group players from different providers will fail silently.
-- **Universal groups** — to group speakers across different providers, use Music Assistant's own UI to create a universal group. These do not provide perfectly synchronized audio.
-- **`group_members` format** — MA should expose this attribute in the same comma-separated format as other integrations. If the toggle states in the speaker panel do not update correctly after joining or unjoining, the format may differ for your setup — please [report it](https://github.com/jtenniswood/esphome-media-player/issues).
+- If you don't have groups configured, you will just see the
+large single volume control.
