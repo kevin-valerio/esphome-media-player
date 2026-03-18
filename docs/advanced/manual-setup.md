@@ -108,7 +108,7 @@ packages:
 
 ### ESP32-P4 JC8012P4A1
 
-The 1280×800 rectangular display defaults to landscape (90°). To flip it 180° (e.g. to reverse the power cable side), use 270°:
+The 1280×800 rectangular display is landscape-only. It supports **90°** (default) and **270°** (flipped landscape). Use 270° to flip the image 180° — for example so the power cable exits the other side. Portrait (0° / 180°) is not supported.
 
 | `display_rotation` | `touch_mirror_x` | `touch_mirror_y` |
 | ------------------- | ----------------- | ----------------- |
