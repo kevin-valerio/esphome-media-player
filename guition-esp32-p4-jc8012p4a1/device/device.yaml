@@ -201,7 +201,7 @@ touchscreen:
     interrupt_pin: GPIO21
     # Touch mirror must match display_rotation (90 or 270); see packages.yaml
     transform:
-      swap_xy: true
+      swap_xy: ${touch_swap_xy}
       mirror_x: ${touch_mirror_x}
       mirror_y: ${touch_mirror_y}
     on_touch:

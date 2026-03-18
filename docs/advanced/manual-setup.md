@@ -44,7 +44,7 @@ wifi:
 packages:
   music_dashboard:
     url: https://github.com/jtenniswood/esphome-media-player
-    files: [guition-esp32-p4-jc8012p4a1/packages.yaml]
+    files: [guition-esp32-p4-jc8012p4a1/packages-landscape.yaml]
     ref: main
     refresh: 1s
 ```
@@ -62,6 +62,7 @@ These substitutions can be added to the `substitutions:` block in your configura
 | `ha_host`         | `"homeassistant.local"` | Hostname or IP address of Home Assistant                                   |
 | `ha_port`         | `"8123"`                | Port that Home Assistant is running on                                     |
 | `display_rotation` | `"0"` (S3) / `"90"` (P4) | Display rotation in degrees. See [Display rotation](#display-rotation).  |
+| `touch_swap_xy`   | `"true"` / `"false"`    | Touch X/Y axis swap — ESP32-P4 only. `"true"` for landscape, `"false"` for portrait. |
 | `touch_mirror_x`  | `"false"`               | Touch X-axis mirror — must match `display_rotation`. See rotation tables. |
 | `touch_mirror_y`  | `"false"`               | Touch Y-axis mirror — must match `display_rotation`. See rotation tables. |
 
@@ -108,12 +109,25 @@ packages:
 
 ### ESP32-P4 JC8012P4A1
 
-The 1280×800 rectangular display is landscape-only. It supports **90°** (default) and **270°** (flipped landscape). Use 270° to flip the image 180° — for example so the power cable exits the other side. Portrait (0° / 180°) is not supported.
+The rectangular display supports both landscape and portrait orientations, each with a 180° flip option. Use the matching packages file for your orientation.
 
-| `display_rotation` | `touch_mirror_x` | `touch_mirror_y` |
-| ------------------- | ----------------- | ----------------- |
-| `"90"` (default)    | `"false"`         | `"false"`         |
-| `"270"`             | `"true"`          | `"true"`          |
+#### Landscape (default)
+
+Use `packages-landscape.yaml`. To flip 180°, override `display_rotation` and touch mirrors:
+
+| `display_rotation` | `touch_swap_xy` | `touch_mirror_x` | `touch_mirror_y` |
+| ------------------- | --------------- | ----------------- | ----------------- |
+| `"90"` (default)    | `"true"`        | `"false"`         | `"false"`         |
+| `"270"`             | `"true"`        | `"true"`          | `"true"`          |
+
+#### Portrait
+
+Use `packages-portrait.yaml`. To flip 180°, override `display_rotation` and touch mirrors:
+
+| `display_rotation` | `touch_swap_xy` | `touch_mirror_x` | `touch_mirror_y` |
+| ------------------- | --------------- | ----------------- | ----------------- |
+| `"0"` (default)     | `"false"`       | `"true"`          | `"false"`         |
+| `"180"`             | `"false"`       | `"false"`         | `"true"`          |
 
 #### Example: flipped landscape
 
@@ -122,6 +136,7 @@ substitutions:
   name: "music-dashboard-10inch"
   friendly_name: "Music Dashboard 10inch"
   display_rotation: "270"
+  touch_swap_xy: "true"
   touch_mirror_x: "true"
   touch_mirror_y: "true"
 
@@ -132,7 +147,26 @@ wifi:
 packages:
   music_dashboard:
     url: https://github.com/jtenniswood/esphome-media-player
-    files: [guition-esp32-p4-jc8012p4a1/packages.yaml]
+    files: [guition-esp32-p4-jc8012p4a1/packages-landscape.yaml]
+    ref: main
+    refresh: 1s
+```
+
+#### Example: portrait
+
+```yaml
+substitutions:
+  name: "music-dashboard-10inch"
+  friendly_name: "Music Dashboard 10inch"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+packages:
+  music_dashboard:
+    url: https://github.com/jtenniswood/esphome-media-player
+    files: [guition-esp32-p4-jc8012p4a1/packages-portrait.yaml]
     ref: main
     refresh: 1s
 ```
