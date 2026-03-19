@@ -1,0 +1,3 @@
+# Default: landscape layout. Same as packages-landscape.yaml.
+# For portrait (800x1280), use packages-portrait.yaml instead.
+<<: !include packages-landscape.yaml
