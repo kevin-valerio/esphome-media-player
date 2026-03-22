@@ -50,7 +50,7 @@ export default {
         ],
       },
       {
-        text: 'Advanced',
+        text: 'Manual Setup',
         items: [
           { text: 'ESPHome Config', link: '/advanced/esphome-config' },
           { text: 'Display Rotation', link: '/advanced/display-rotation' },
