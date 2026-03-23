@@ -159,25 +159,12 @@ number:
     entity_category: config
 
   - platform: template
-    name: "Clock: Active Brightness"
-    id: clock_active_brightness
+    name: "Clock: Brightness"
+    id: clock_brightness
     min_value: 1
     max_value: 100
     step: 1
-    initial_value: 20
-    optimistic: true
-    restore_value: true
-    unit_of_measurement: "%"
-    icon: "mdi:clock-outline"
-    entity_category: config
-
-  - platform: template
-    name: "Clock: Dim Brightness"
-    id: clock_dim_brightness
-    min_value: 1
-    max_value: 50
-    step: 1
-    initial_value: 5
+    initial_value: 10
     optimistic: true
     restore_value: true
     unit_of_measurement: "%"
@@ -239,10 +226,9 @@ switch:
 #
 # Flow:
 #   1. Wake: hide clock if showing, restore active brightness, resume LVGL
-#   2. Wait dim_timeout seconds
+#   2. Wait clock_start_timeout (clock) or dim_timeout (no clock) seconds
 #   3. If media is NOT playing:
-#      a. Clock enabled → show clock at clock_active brightness,
-#         then after off_timeout → drop to clock_dim brightness
+#      a. Clock enabled → show clock at clock brightness
 #      b. Clock disabled → dim to day/night brightness,
 #         then optionally turn off after off_timeout
 # -----------------------------------------------------------------------------
@@ -287,11 +273,6 @@ script:
                   lambda: 'return id(clock_screensaver_enabled).state;'
                 then:
                   - script.execute: show_clock_view
-                  - delay: !lambda 'return (uint32_t)(id(backlight_off_timeout).state * 1000);'
-                  - light.turn_on:
-                      id: backlight
-                      brightness: !lambda 'return id(clock_dim_brightness).state / 100.0f;'
-                      transition_length: 3s
                 else:
                   - light.turn_on:
                       id: backlight
@@ -339,7 +320,7 @@ script:
       - lvgl.widget.show: clock_screensaver
       - light.turn_on:
           id: backlight
-          brightness: !lambda 'return id(clock_active_brightness).state / 100.0f;'
+          brightness: !lambda 'return id(clock_brightness).state / 100.0f;'
           transition_length: 3s
 
   - id: hide_clock_view
