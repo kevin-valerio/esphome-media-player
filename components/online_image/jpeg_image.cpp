@@ -25,7 +25,14 @@ static void jpeg_error_exit(j_common_ptr cinfo) {
   longjmp(err->setjmp_buffer, 1);
 }
 
+static constexpr size_t MAX_JPEG_DOWNLOAD_SIZE = 2 * 1024 * 1024;  // 2 MB
+
 int JpegDecoder::prepare(size_t download_size) {
+  if (download_size > MAX_JPEG_DOWNLOAD_SIZE) {
+    ESP_LOGE(TAG, "JPEG too large to decode: %zu bytes (max %zu). Consider using a smaller image URL.",
+             download_size, MAX_JPEG_DOWNLOAD_SIZE);
+    return DECODE_ERROR_OUT_OF_MEMORY;
+  }
   ImageDecoder::prepare(download_size);
   auto size = this->image_->resize_download_buffer(download_size);
   if (size < download_size) {
