@@ -65,27 +65,14 @@ packages:
 
 ## ESP32-P4 JC8012P4A1
 
-The rectangular display supports both landscape and portrait orientations, each with a 180° flip option. Use the matching packages file for your orientation.
-
-### Landscape (default)
-
-Use `packages.yaml` (or `packages-landscape.yaml`). To flip 180°, override `display_rotation` and touch mirrors:
+The rectangular display defaults to landscape orientation and supports a 180° flip for alternate mounting. To flip 180°, override `display_rotation` and touch mirrors:
 
 | `display_rotation` | `touch_swap_xy` | `touch_mirror_x` | `touch_mirror_y` |
 | ------------------- | --------------- | ----------------- | ----------------- |
 | `"90"` (default)    | `"true"`        | `"false"`         | `"false"`         |
 | `"270"`             | `"true"`        | `"true"`          | `"true"`          |
 
-### Portrait
-
-Use `packages-portrait.yaml`. To flip 180°, override `display_rotation` and touch mirrors:
-
-| `display_rotation` | `touch_swap_xy` | `touch_mirror_x` | `touch_mirror_y` |
-| ------------------- | --------------- | ----------------- | ----------------- |
-| `"0"` (default)     | `"false"`       | `"true"`          | `"false"`         |
-| `"180"`             | `"false"`       | `"false"`         | `"true"`          |
-
-### Example: flipped landscape
+### Example: 180-degree rotation
 
 ```yaml
 substitutions:
@@ -108,21 +95,3 @@ packages:
     refresh: 1s
 ```
 
-### Example: portrait
-
-```yaml
-substitutions:
-  name: "music-dashboard-10inch"
-  friendly_name: "Music Dashboard 10inch"
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-
-packages:
-  music_dashboard:
-    url: https://github.com/jtenniswood/esphome-media-player
-    files: [guition-esp32-p4-jc8012p4a1/packages-portrait.yaml]
-    ref: main
-    refresh: 1s
-```
