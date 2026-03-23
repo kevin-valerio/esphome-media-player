@@ -65,17 +65,17 @@ The device checks for new firmware automatically and can install updates over-th
 When playback is paused, the device uses a two-stage screensaver:
 
 1. After **Timeout: Dimming** elapses, the screen dims to **Day/Night: Dim Brightness**.
-2. After **Timeout: Screen Saver** elapses, the screen saver activates:
-   - If the **Clock Screensaver** switch is on, a large `HH:MM` clock is shown at **Clock: Brightness**.
+2. After **Screen Saver: Timer** elapses, the screen saver activates:
+   - If the **Screen Saver: Clock** switch is on, a large `HH:MM` clock is shown at **Screen Saver: Clock Brightness**.
    - Otherwise, the screen turns off (unless disabled by the **Day/Night: Screen Saver** switch, in which case it stays dimmed).
 
 Active brightness (**Day/Night: Active Brightness**) adjusts automatically between day and night based on the `sun.sun` entity in Home Assistant. All of these settings are configurable from the device page in Home Assistant (see [Settings](/features/settings)).
 
 ### Clock screensaver
 
-An optional clock screensaver displays the current time in large, thin digits on a black background when the device is idle. Enable it with the **Clock Screensaver** switch in Home Assistant.
+An optional clock screensaver displays the current time in large, thin digits on a black background when the device is idle. Enable it with the **Screen Saver: Clock** switch in Home Assistant.
 
-When enabled, the clock replaces the screen-off stage of the screensaver flow. After the screen dims and the **Timeout: Screen Saver** elapses, the display switches to a `HH:MM` clock at **Clock: Brightness** (default 35%). The screen **never turns off** — the clock stays visible.
+When enabled, the clock replaces the screen-off stage of the screensaver flow. After the screen dims and the **Screen Saver: Timer** elapses, the display switches to a `HH:MM` clock at **Screen Saver: Clock Brightness** (default 35%). The screen **never turns off** — the clock stays visible.
 
 The clock position drifts subtly each minute to prevent screen burn-in. Any touch or new media playback instantly returns to the full-brightness now-playing view.
 

@@ -135,7 +135,7 @@ number:
     entity_category: config
 
   - platform: template
-    name: "Timeout: Screen Saver"
+    name: "Screen Saver: Timer"
     id: backlight_off_timeout
     min_value: 1
     max_value: 600
@@ -148,7 +148,7 @@ number:
     entity_category: config
 
   - platform: template
-    name: "Clock: Brightness"
+    name: "Screen Saver: Clock Brightness"
     id: clock_brightness
     min_value: 1
     max_value: 100
@@ -186,7 +186,7 @@ switch:
     entity_category: config
 
   - platform: template
-    name: "Clock Screensaver"
+    name: "Screen Saver: Clock"
     id: clock_screensaver_enabled
     optimistic: true
     restore_mode: RESTORE_DEFAULT_ON
