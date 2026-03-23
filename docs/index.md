@@ -64,7 +64,7 @@ The device checks for new firmware automatically and can install updates over-th
 
 When playback is paused, the device uses a two-stage screensaver:
 
-1. After **Timeout: Dimming** elapses, the screen dims to **Day/Night: Dim Brightness**.
+1. After **Screen Saver: Paused Dimming** elapses, the screen dims to **Day/Night: Dim Brightness**.
 2. After **Screen Saver: Timer** elapses, the screen saver activates:
    - If the **Screen Saver: Clock** switch is on, a large `HH:MM` clock is shown at **Screen Saver: Clock Brightness**.
    - Otherwise, the screen turns off (unless disabled by the **Day/Night: Screen Saver** switch, in which case it stays dimmed).

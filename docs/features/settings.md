@@ -23,7 +23,7 @@ Most settings are configurable from the device page in Home Assistant (**Setting
 
 | Setting | Description |
 |---------|-------------|
-| **Timeout: Dimming** | Time after playback pauses before the screen dims to the dim brightness level. |
+| **Screen Saver: Paused Dimming** | Time after playback pauses before the screen dims to the dim brightness level. |
 | **Screen Saver: Timer** | Time after dimming before the screen saver activates. If the clock screen saver is enabled, the clock is shown. Otherwise, the screen turns off (if the **Day/Night: Screen Saver** switch is on). |
 
 ## Speakers
