@@ -431,7 +431,7 @@ script:
   # Per-speaker volume +/- buttons
   # ---------------------------------------------------------------------------
   - id: speaker_volume_change
-    mode: single
+    mode: restart
     parameters:
       slot: int
       direction: int

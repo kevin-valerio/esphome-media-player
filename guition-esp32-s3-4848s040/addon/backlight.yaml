@@ -215,6 +215,8 @@ script:
       - lambda: |-
           id(was_screen_dimmed) = id(is_screen_dimmed);
           id(is_screen_dimmed) = false;
+      - lvgl.resume:
+      - delay: 100ms
       - light.turn_on:
           id: backlight
           brightness: !lambda |-
@@ -225,7 +227,6 @@ script:
               : id(backlight_night_active_brightness).state;
             return pct / 100.0f;
           transition_length: 1s
-      - lvgl.resume:
       - if:
           condition:
             lambda: 'return id(was_screen_dimmed);'
@@ -276,6 +277,7 @@ script:
                                   id: backlight
                                   transition_length: 3s
                               - lvgl.pause:
+                                  show_snow: true
 
   - id: turn_off_display
     mode: single
@@ -287,6 +289,7 @@ script:
           transition_length: 1s
       - delay: 1s
       - lvgl.pause:
+          show_snow: true
 
   - id: show_clock_view
     mode: single
