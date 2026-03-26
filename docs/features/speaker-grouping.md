@@ -57,9 +57,33 @@ You *must* restart Home Assistant in order for the new template to be loaded.
 ### Music Assistant (Experimental)
 
 > [!WARNING]
-> Music Assistant support is **experimental**. The template below filters out MA group entities so only individual players appear in the speaker list. If grouping does not work correctly with your player providers, please [open an issue](https://github.com/jtenniswood/esphome-media-player/issues).
+> Music Assistant support is **experimental**. The template changed in MA 2.8 due to how players are now represented. Make sure you use the correct template for your version. If grouping does not work correctly with your player providers, please [open an issue](https://github.com/jtenniswood/esphome-media-player/issues).
 
-Music Assistant creates group entities alongside individual players. The `reject` filters below exclude these so only physical speakers appear in the panel:
+#### MA 2.8+
+
+Music Assistant 2.8 merges players that support multiple protocols into a single entity, so group and sync-group filtering is no longer needed. Use the same template as standard integrations:
+
+```yaml
+template:
+  - sensor:
+      - name: "Speaker Group"
+        unique_id: speaker_group
+        state: >
+          {%- set s = integration_entities("music_assistant")
+              | select("match", "media_player")
+              | list -%}
+          {{ s | count }}
+        attributes:
+          data: >
+            {%- set s = integration_entities("music_assistant")
+                | select("match", "media_player")
+                | list -%}
+            {{ s | map("replace", "media_player.", "") | join(",") }}|{{ s | map("state_attr", "friendly_name") | join(",") }}|{{ s | map("state_attr", "volume_level") | join(",") }}
+```
+
+#### MA 2.7 and earlier
+
+Older versions of Music Assistant create separate group and sync-group entities alongside individual players. The `reject` filters below exclude these so only physical speakers appear in the panel:
 
 ```yaml
 template:
