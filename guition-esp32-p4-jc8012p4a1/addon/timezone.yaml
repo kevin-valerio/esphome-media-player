@@ -12,6 +12,13 @@
 # =============================================================================
 
 
+esphome:
+  on_boot:
+    priority: -10
+    then:
+      - script.execute: apply_timezone
+
+
 select:
   - platform: template
     name: "Clock: Timezone"
@@ -155,12 +162,13 @@ script:
             {"(+10:00) Sydney",      "AEST-10AEDT,M10.1.0,M4.1.0/3"},
             {"(+12:00) Auckland",    "NZST-12NZDT,M9.5.0,M4.1.0/3"},
           };
+          if (!id(clock_timezone).has_state()) return;
           std::string sel = id(clock_timezone).state;
           for (auto& e : tz_table) {
             if (sel == e[0]) {
               setenv("TZ", e[1], 1);
               tzset();
-              ESP_LOGI("timezone", "Applied timezone: %s → %s", e[0], e[1]);
+              ESP_LOGI("timezone", "Applied timezone: %s -> %s", e[0], e[1]);
               return;
             }
           }
