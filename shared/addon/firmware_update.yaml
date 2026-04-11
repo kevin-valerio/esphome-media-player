@@ -21,7 +21,7 @@ update:
   - platform: http_request
     id: firmware_update
     name: Firmware Update
-    source: https://jtenniswood.github.io/esphome-media-player/firmware/media-player-4848s040.manifest.json
+    source: https://jtenniswood.github.io/esphome-media-player/firmware/media-player-${firmware_manifest_slug}.manifest.json
     update_interval: never
     on_update_available:
       then:

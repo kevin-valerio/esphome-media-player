@@ -70,7 +70,7 @@ lvgl:
 
         # Darkening layer over artwork (separate from text so transparency works)
         - obj:
-            id: track_info_overlay
+            id: accent_overlay
             x: 0
             y: 0
             width: 480

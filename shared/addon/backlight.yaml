@@ -38,9 +38,6 @@ light:
 # -----------------------------------------------------------------------------
 # SUN STATE SENSOR (from Home Assistant)
 # -----------------------------------------------------------------------------
-# Every HA instance has sun.sun by default. Its state is either
-# "above_horizon" (daytime) or "below_horizon" (nighttime).
-# -----------------------------------------------------------------------------
 text_sensor:
   - platform: homeassistant
     entity_id: sun.sun
@@ -50,9 +47,6 @@ text_sensor:
 
 # -----------------------------------------------------------------------------
 # DAY/NIGHT SENSOR OVERRIDE (optional)
-# -----------------------------------------------------------------------------
-# Users can point this at any binary_sensor or input_boolean in HA.
-# on = day, off = night. When empty, sun.sun is used (default).
 # -----------------------------------------------------------------------------
 text:
   - platform: template
@@ -72,9 +66,6 @@ text:
 
 # -----------------------------------------------------------------------------
 # USER-CONFIGURABLE SETTINGS (exposed to Home Assistant)
-# -----------------------------------------------------------------------------
-# These appear as number entities under the device's Configuration section.
-# Values persist across reboots via restore_value + restore_from_flash.
 # -----------------------------------------------------------------------------
 number:
   - platform: template
@@ -198,10 +189,6 @@ number:
 # -----------------------------------------------------------------------------
 # SCREENSAVER ENABLE/DISABLE (exposed to Home Assistant)
 # -----------------------------------------------------------------------------
-# Toggle switches to enable or disable the screen-off stage independently
-# for daytime and nighttime. When disabled, the screen stays dimmed but
-# never turns off completely. Both default to ON (screensaver enabled).
-# -----------------------------------------------------------------------------
 switch:
   - platform: template
     name: "Day: Screen Saver"
@@ -230,17 +217,6 @@ switch:
 
 # -----------------------------------------------------------------------------
 # BACKLIGHT WAKE / DIM / OFF SCRIPT
-# -----------------------------------------------------------------------------
-# mode: restart — any touch re-executes from the top, cancelling pending
-# delays. This gives instant wake-up from any state (dimmed, clock, or off).
-#
-# Flow:
-#   1. Wake: hide clock if showing, restore active brightness, resume LVGL
-#   2. Wait dim_timeout seconds → dim to day/night brightness
-#   3. Wait screen_saver_timeout seconds
-#   4. If media is NOT playing:
-#      a. Clock enabled → show clock at clock brightness
-#      b. Clock disabled & screen saver switch on → turn off screen
 # -----------------------------------------------------------------------------
 script:
   - id: backlight_wake_timeout
@@ -343,7 +319,7 @@ script:
             lv_obj_update_layout(id(clock_label));
             lv_coord_t w = lv_obj_get_width(id(clock_label));
             lv_coord_t h = lv_obj_get_height(id(clock_label));
-            int cx = 240, cy = 240;
+            int cx = ${clock_cx}, cy = ${clock_cy};
             int ox = (time.minute * 7) % 61 - 30;
             int oy = (time.minute * 13) % 41 - 20;
             lv_obj_set_pos(id(clock_label), cx + ox - w/2, cy + oy - h/2);
@@ -382,10 +358,6 @@ script:
 # -----------------------------------------------------------------------------
 # CLOCK UPDATE INTERVAL
 # -----------------------------------------------------------------------------
-# Every 30 s, refresh the time text and drift the label position to prevent
-# burn-in. The position is derived from the current minute so it changes
-# deterministically ~once per minute across a 60×40 px region.
-# -----------------------------------------------------------------------------
 interval:
   - interval: 30s
     then:
@@ -401,7 +373,7 @@ interval:
           lv_obj_update_layout(id(clock_label));
           lv_coord_t w = lv_obj_get_width(id(clock_label));
           lv_coord_t h = lv_obj_get_height(id(clock_label));
-          int cx = 240, cy = 240;
+          int cx = ${clock_cx}, cy = ${clock_cy};
           int ox = (time.minute * 7) % 61 - 30;
           int oy = (time.minute * 13) % 41 - 20;
           lv_obj_set_pos(id(clock_label), cx + ox - w/2, cy + oy - h/2);

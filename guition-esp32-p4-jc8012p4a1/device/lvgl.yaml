@@ -66,7 +66,7 @@ lvgl:
 
         # Accent color background (right side, behind track info)
         - obj:
-            id: accent_bg_panel
+            id: accent_overlay
             x: 800
             y: 0
             width: 480px
@@ -163,7 +163,7 @@ lvgl:
                     entity_id: "{{ target }}"
                   on_error:
                     - lambda: |-
-                        if (!id(actions_prompt_acked)) {
+                        if (!id(actions_prompt_acked) && !id(device_has_been_setup)) {
                           lv_obj_clear_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN);
                         }
               - logger.log: "Media: play_pause"
@@ -352,6 +352,30 @@ lvgl:
                   width: 600
                   text_align: left
                   hidden: true
+
+              # Close button (hidden by default; shared speaker_group.yaml references it)
+              - button:
+                  id: speakers_close_button
+                  align: top_right
+                  x: -12
+                  y: 16
+                  width: 64px
+                  height: 64px
+                  radius: 32
+                  bg_color: 0x262626
+                  bg_opa: 100%
+                  border_width: 0
+                  shadow_width: 0
+                  pad_all: 0
+                  hidden: true
+                  widgets:
+                    - label:
+                        text_font: $icon_font
+                        align: center
+                        text: $icon_close
+                        text_color: 0xFFFFFF
+                  on_press:
+                    - script.execute: close_settings_panel
 
               # Speaker card grid
               - obj:

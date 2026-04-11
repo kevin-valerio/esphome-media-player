@@ -25,6 +25,14 @@ esp32:
 esphome:
   name: ${name}
   friendly_name: ${friendly_name}
+  on_boot:
+    priority: -10
+    then:
+      - light.turn_on:
+          id: backlight
+          brightness: 100%
+          transition_length: 500ms
+      - script.execute: backlight_wake_timeout
   platformio_options:
     board_build.flash_mode: dio
     build_flags:
@@ -171,6 +179,9 @@ globals:
     type: bool
     initial_value: 'false'
   - id: was_screen_dimmed
+    type: bool
+    initial_value: 'false'
+  - id: is_ui_hidden
     type: bool
     initial_value: 'false'
   - id: is_clock_showing         # True when clock screensaver overlay is visible
@@ -323,7 +334,7 @@ script:
             entity_id: "{{ target }}"
           on_error:
             - lambda: |-
-                if (!id(actions_prompt_acked)) {
+                if (!id(actions_prompt_acked) && !id(device_has_been_setup)) {
                   lv_obj_clear_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN);
                 }
       - logger.log: "Media: next_track"
@@ -339,7 +350,7 @@ script:
             entity_id: "{{ target }}"
           on_error:
             - lambda: |-
-                if (!id(actions_prompt_acked)) {
+                if (!id(actions_prompt_acked) && !id(device_has_been_setup)) {
                   lv_obj_clear_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN);
                 }
       - logger.log: "Media: previous_track"
@@ -375,6 +386,11 @@ script:
                 then:
                   - script.execute: close_settings_panel
 
+  - id: toggle_ui
+    mode: restart
+    then:
+      - lambda: 'id(is_ui_hidden) = !id(is_ui_hidden);'
+
   - id: show_track_view
     mode: single
     then:
@@ -392,7 +408,7 @@ script:
           id(is_tv_mode) = true;
           id(is_tv_idle) = false;
           id(last_tv_artwork_url) = "";
-          lv_obj_set_style_bg_color(id(accent_bg_panel), lv_color_make(0, 0, 0), 0);
+          lv_obj_set_style_bg_color(id(accent_overlay), lv_color_make(0, 0, 0), 0);
           lv_obj_set_style_bg_color(id(artwork_bg_panel), lv_color_make(0, 0, 0), 0);
           lv_obj_set_style_bg_color(id(media_play_pause_button), lv_color_make(0, 0, 0), 0);
       - lvgl.label.update:

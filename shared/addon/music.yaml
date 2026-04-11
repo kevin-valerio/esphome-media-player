@@ -23,32 +23,34 @@ http_request:
   id: http_req
   verify_ssl: ${ha_verify_ssl}
 
-# Placeholder shown while album art is loading or when no art is available.
 image:
-  - file: "https://github.com/jtenniswood/esphome-media-player/raw/main/guition-esp32-s3-4848s040/assets/placeholder.png"
+  - file: "https://github.com/jtenniswood/esphome-media-player/raw/main/${device_slug}/assets/placeholder.png"
     id: album_art_placeholder
-    type: rgb565
+    type: RGB565
+    byte_order: ${image_byte_order}
 
-# Dynamic album art from media_player entity_picture (URL set by sensors.yaml).
-# Decoded at 480x480 to match the physical display resolution (1:1 pixel mapping).
 online_image:
-  - url: "https://placehold.co/480x480/2d2d2d/555555"
+  - url: "https://placehold.co/${artwork_size}x${artwork_size}/2d2d2d/555555"
     id: album_art_background
     format: AUTO
-    type: rgb565
+    type: RGB565
+    byte_order: ${image_byte_order}
     placeholder: album_art_placeholder
-    resize: 480x480
+    resize: ${artwork_size}x${artwork_size}
+    buffer_size: ${online_image_buffer_size}
     on_download_finished:
       - script.execute: apply_downloaded_artwork
     on_error:
       - script.execute: handle_artwork_error
 
-  - url: "https://placehold.co/480x480/2d2d2d/555555"
+  - url: "https://placehold.co/${artwork_size}x${artwork_size}/2d2d2d/555555"
     id: tv_art_background
     format: AUTO
-    type: rgb565
+    type: RGB565
+    byte_order: ${image_byte_order}
     placeholder: album_art_placeholder
-    resize: 480x480
+    resize: ${artwork_size}x${artwork_size}
+    buffer_size: ${online_image_buffer_size}
     on_download_finished:
       - script.execute: apply_downloaded_artwork
     on_error:
@@ -65,7 +67,7 @@ script:
           int iw = img->get_width();
           int ih = img->get_height();
           auto *w = id(album_art_background_widget);
-          constexpr int display_size = 480;
+          constexpr int display_size = ${artwork_size};
           int dim = (iw < ih) ? iw : ih;
           if (!id(is_tv_mode) && dim > 0 && dim < display_size) {
             int zoom = (256 * display_size + dim - 1) / dim;
@@ -97,7 +99,7 @@ script:
           id: album_art_background_widget
           opa: 100%
       - script.execute: extract_accent_color
-      - script.execute: start_hide_track_info_timer
+      - script.execute: ${post_artwork_script}
 
   - id: handle_artwork_error
     mode: restart
