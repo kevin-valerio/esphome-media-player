@@ -1,6 +1,8 @@
 # ESPHome
 secrets.yaml
 .esphome/
+agents.md
+.venv/
 
 # macOS
 .DS_Store
