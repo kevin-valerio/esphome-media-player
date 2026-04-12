@@ -84,6 +84,7 @@ lvgl:
             scrollable: false
             scrollbar_mode: "off"
             clickable: false
+            hidden: true
 
         # Track info text (transparent background, over darkening layer)
         - obj:
@@ -102,6 +103,7 @@ lvgl:
             scrollable: false
             scrollbar_mode: "off"
             clickable: false
+            hidden: true
             layout:
               type: flex
               flex_flow: COLUMN
@@ -149,6 +151,7 @@ lvgl:
             width: 96px
             height: 96px
             styles: control_round
+            hidden: true
             widgets:
               - label:
                   id: media_play_icon
@@ -179,24 +182,6 @@ lvgl:
                         }
               - logger.log: "Media: play_pause"
 
-        # Next track: 96px round, left of play/pause
-        - button:
-            id: media_next_button
-            align: bottom_right
-            x: -136
-            y: -30
-            width: 96px
-            height: 96px
-            styles: control_round
-            widgets:
-              - label:
-                  text_font: icon_font_large
-                  align: center
-                  text: $next_track
-                  text_color: 0xFFFFFF
-            on_press:
-              - script.execute: swipe_next_track
-
         # Progress bar: full screen width, at the very bottom of the screen
         - bar:
             id: media_progress_bar
@@ -210,6 +195,7 @@ lvgl:
             min_value: 0
             max_value: 100
             value: 0
+            hidden: true
             indicator:
               bg_color: 0xFFFFFF
               radius: 0

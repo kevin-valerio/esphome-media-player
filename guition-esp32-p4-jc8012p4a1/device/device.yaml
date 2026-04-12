@@ -183,7 +183,7 @@ globals:
     initial_value: 'false'
   - id: is_ui_hidden
     type: bool
-    initial_value: 'false'
+    initial_value: 'true'
   - id: is_clock_showing         # True when clock screensaver overlay is visible
     type: bool
     initial_value: 'false'
@@ -315,6 +315,26 @@ touchscreen:
               }
             }
           }
+          // Tap: minimal movement anywhere on screen — toggle UI visibility
+          // Excludes the on-screen control button (play/pause).
+          // If screen was dimmed, just wake it (don't hide the UI).
+          // Tap swaps between thumbnail-only and the now-playing overlay.
+          else if (abs(dx) < 20 && abs(dy) < 20) {
+            int sx = id(touch_x_start);
+            auto in_widget = [&](lv_obj_t *obj) -> bool {
+              lv_area_t a;
+              lv_obj_get_coords(obj, &a);
+              return sx >= a.x1 && sx <= a.x2 && sy >= a.y1 && sy <= a.y2;
+            };
+            if (!id(is_ui_hidden) && in_widget(id(media_play_pause_button))) {
+              return;
+            }
+            if (id(was_screen_dimmed)) {
+              // Screen was dimmed — wake only, don't toggle
+            } else {
+              id(toggle_ui).execute();
+            }
+          }
 
 
 # -----------------------------------------------------------------------------
@@ -389,7 +409,32 @@ script:
   - id: toggle_ui
     mode: restart
     then:
-      - lambda: 'id(is_ui_hidden) = !id(is_ui_hidden);'
+      - if:
+          condition:
+            lambda: 'return id(is_ui_hidden);'
+          then:
+            - lambda: 'id(is_ui_hidden) = false;'
+            - lvgl.widget.show: accent_overlay
+            - lvgl.widget.show: track_info_panel
+            - lvgl.widget.show: media_play_pause_button
+            - lvgl.widget.show: media_progress_bar
+            - lambda: |-
+                if (id(artist_has_content)) lv_obj_clear_flag(id(media_artist_label), LV_OBJ_FLAG_HIDDEN);
+                lv_obj_fade_in(id(accent_overlay), 200, 0);
+                lv_obj_fade_in(id(track_info_panel), 200, 0);
+                lv_obj_fade_in(id(media_play_pause_button), 200, 0);
+          else:
+            - lambda: 'id(is_ui_hidden) = true;'
+            - lambda: |-
+                lv_obj_fade_out(id(accent_overlay), 300, 0);
+                lv_obj_fade_out(id(track_info_panel), 300, 0);
+                lv_obj_fade_out(id(media_play_pause_button), 300, 0);
+            - delay: 400ms
+            - lvgl.widget.hide: accent_overlay
+            - lvgl.widget.hide: track_info_panel
+            - lvgl.widget.hide: media_play_pause_button
+            - lvgl.widget.hide: media_progress_bar
+            - lvgl.widget.hide: media_artist_label
 
   - id: show_track_view
     mode: single
@@ -411,7 +456,6 @@ script:
           lv_obj_set_style_bg_color(id(accent_overlay), lv_color_make(0, 0, 0), 0);
           lv_obj_set_style_bg_color(id(artwork_bg_panel), lv_color_make(0, 0, 0), 0);
           lv_obj_set_style_bg_color(id(media_play_pause_button), lv_color_make(0, 0, 0), 0);
-          lv_obj_set_style_bg_color(id(media_next_button), lv_color_make(0, 0, 0), 0);
       - lvgl.label.update:
           id: media_title_label
           text: !lambda 'return id(media_source_sensor).state;'
@@ -430,7 +474,6 @@ script:
           then:
             - lambda: 'id(is_tv_idle) = true;'
             - lvgl.widget.hide: media_play_pause_button
-            - lvgl.widget.hide: media_next_button
             - lvgl.widget.hide: media_time_label
             - lvgl.widget.hide: media_progress_bar
             - lvgl.widget.hide: album_art_background_widget
@@ -501,8 +544,13 @@ script:
           lv_obj_set_style_bg_color(id(artwork_bg_panel), lv_color_make(0, 0, 0), 0);
           lv_obj_set_size(id(album_art_background_widget), 800, 800);
           lv_obj_set_pos(id(album_art_background_widget), 0, 0);
-      - lvgl.widget.show: media_play_pause_button
-      - lvgl.widget.show: media_next_button
+      - if:
+          condition:
+            lambda: 'return !id(is_ui_hidden);'
+          then:
+            - lvgl.widget.show: media_play_pause_button
+          else:
+            - lvgl.widget.hide: media_play_pause_button
       - lvgl.widget.show: media_time_label
       - lvgl.label.update:
           id: media_title_label

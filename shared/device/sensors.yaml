@@ -111,7 +111,7 @@ interval:
               return std::string(buf);
       - if:
           condition:
-            lambda: 'return !id(show_progress_bar).state || id(is_tv_idle);'
+            lambda: 'return id(is_ui_hidden) || !id(show_progress_bar).state || id(is_tv_idle);'
           then:
             - lvgl.widget.hide: media_progress_bar
           else:

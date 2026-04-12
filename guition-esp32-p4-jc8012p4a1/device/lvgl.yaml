@@ -77,6 +77,7 @@ lvgl:
             border_width: 0
             pad_all: 0
             scrollable: false
+            hidden: true
 
         # Track info panel (flex column on right side)
         - obj:
@@ -90,6 +91,7 @@ lvgl:
             pad_all: 0
             scrollable: false
             scrollbar_mode: "off"
+            hidden: true
             layout:
               type: flex
               flex_flow: COLUMN
@@ -138,6 +140,7 @@ lvgl:
             height: 96px
             radius: 48
             styles: control_round
+            hidden: true
             widgets:
               - label:
                   id: media_play_icon
@@ -168,25 +171,6 @@ lvgl:
                         }
               - logger.log: "Media: play_pause"
 
-        # Next track button (left of play/pause)
-        - button:
-            id: media_next_button
-            align: bottom_right
-            x: -152
-            y: -40
-            width: 96px
-            height: 96px
-            radius: 48
-            styles: control_round
-            widgets:
-              - label:
-                  text_font: icon_font_large
-                  align: center
-                  text: $next_track
-                  text_color: 0xFFF5E0
-            on_press:
-              - script.execute: swipe_next_track
-
         # Progress bar at the very bottom
         - bar:
             id: media_progress_bar
@@ -200,6 +184,7 @@ lvgl:
             min_value: 0
             max_value: 100
             value: 0
+            hidden: true
             indicator:
               bg_color: 0xFFF5E0
               radius: 0
