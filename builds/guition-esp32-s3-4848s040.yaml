@@ -2,6 +2,10 @@ substitutions:
   name: "media-player"
   friendly_name: "Media Player"
   media_player: ""
+  display_rotation: "180"
+  touch_swap_xy: "false"
+  touch_mirror_x: "true"
+  touch_mirror_y: "true"
 
 esphome:
   name_add_mac_suffix: true

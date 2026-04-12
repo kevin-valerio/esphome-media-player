@@ -704,6 +704,7 @@ display:
   - platform: mipi_rgb
     model: GUITION-4848S040
     id: my_display
+    rotation: ${display_rotation}  # 0/90/180/270 (see docs/advanced/display-rotation.md)
     pclk_frequency: 8MHz
     update_interval: never
     auto_clear_enabled: False
