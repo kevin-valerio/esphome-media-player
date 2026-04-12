@@ -168,6 +168,25 @@ lvgl:
                         }
               - logger.log: "Media: play_pause"
 
+        # Next track button (left of play/pause)
+        - button:
+            id: media_next_button
+            align: bottom_right
+            x: -152
+            y: -40
+            width: 96px
+            height: 96px
+            radius: 48
+            styles: control_round
+            widgets:
+              - label:
+                  text_font: icon_font_large
+                  align: center
+                  text: $next_track
+                  text_color: 0xFFF5E0
+            on_press:
+              - script.execute: swipe_next_track
+
         # Progress bar at the very bottom
         - bar:
             id: media_progress_bar
