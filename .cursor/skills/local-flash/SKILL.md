@@ -18,7 +18,6 @@ Compile ESPHome firmware with local component changes, then flash to a USB-conne
 
 | Device | Directory | Chip |
 |--------|-----------|------|
-| 10" P4 display | `guition-esp32-p4-jc8012p4a1/` | esp32p4 |
 | 4" S3 display | `guition-esp32-s3-4848s040/` | esp32s3 |
 
 ## Workflow
@@ -89,12 +88,6 @@ Typical: `/dev/tty.usbserial-201230`
 
 ### 5. Flash with esptool
 
-**ESP32-P4:**
-```bash
-esptool.py --port /dev/tty.usbserial-XXXXXX --chip esp32p4 write_flash 0x0 \
-  /tmp/esphome-build/<device-dir>/.esphome/build/<name>/.pioenvs/<name>/firmware.factory.bin
-```
-
 **ESP32-S3:**
 ```bash
 esptool.py --port /dev/tty.usbserial-XXXXXX --chip esp32s3 write_flash 0x0 \
@@ -120,7 +113,7 @@ docker run --rm -v "/tmp/esphome-build:/config" \
   ghcr.io/esphome/esphome:latest compile <device-dir>/dev.yaml
 
 # Flash (~100s)
-esptool.py --port /dev/tty.usbserial-XXXXXX --chip esp32p4 write_flash 0x0 \
+esptool.py --port /dev/tty.usbserial-XXXXXX --chip esp32s3 write_flash 0x0 \
   /tmp/esphome-build/<device-dir>/.esphome/build/<name>/.pioenvs/<name>/firmware.factory.bin
 ```
 

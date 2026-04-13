@@ -8,7 +8,6 @@ const props = defineProps({
 
 const allDevices = [
   { key: '4848s040', label: 'Guition ESP32-S3 4848S040 (4")', manifest: 'media-player-4848s040.manifest.json' },
-  { key: 'jc8012p4a1', label: 'Guition ESP32-P4 JC8012P4A1 (10.1")', manifest: 'media-player-jc8012p4a1.manifest.json' },
 ]
 
 const visibleDevices = computed(() => {

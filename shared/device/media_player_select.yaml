@@ -127,6 +127,8 @@ script:
           // --- Reset UI ---
           lv_obj_add_flag(id(setup_prompt), LV_OBJ_FLAG_HIDDEN);
           lv_label_set_text(id(media_title_label), "\xe2\x80\x94");
+          lv_label_set_text(id(fallback_title_label), "\xe2\x80\x94");
+          lv_obj_add_flag(id(fallback_title_label), LV_OBJ_FLAG_HIDDEN);
           id(artist_has_content) = false;
           lv_obj_add_flag(id(media_artist_label), LV_OBJ_FLAG_HIDDEN);
           lv_label_set_text(id(media_time_label), "0:00 / -0:00");

@@ -318,72 +318,8 @@ touchscreen:
             return;
           }
 
-          // --- Vertical swipe: settings panel open/close ---
-          // Swipe down to open: 30px+ downward movement, panel closed
-          if (dy > 20 && abs(dy) > abs(dx) * 2 && !id(is_panel_open)) {
-            id(open_settings_panel).execute();
-            return;
-          }
-          // Swipe up to close: panel is open, but not when multi-speaker list is scrollable
-          if (dy < -60 && abs(dy) > abs(dx) * 2 && id(is_panel_open)
-              && (lv_obj_has_flag(id(speakers_container), LV_OBJ_FLAG_HIDDEN) || id(speaker_count) <= 1)) {
-            id(close_settings_panel).execute();
-            return;
-          }
-          // When panel is (or was) open, ignore all main-screen gestures.
-          // was_panel_open guards against the close button tap bleeding
-          // through to toggle_ui after the panel has already been hidden.
-          if (id(is_panel_open) || id(was_panel_open)) {
-            return;
-          }
-
-          // --- Horizontal swipe: track navigation (works when playing or paused) ---
-          if (abs(dx) > 80 && abs(dx) > abs(dy) * 2) {
-            bool can_skip = false;
-            if (id(is_tv_mode)) {
-              std::string e = id(linked_media_player_entity).state;
-              can_skip = !e.empty() && id(tv_media_player_state_sensor).has_state();
-              if (can_skip) {
-                std::string s = id(tv_media_player_state_sensor).state;
-                can_skip = (s == "playing" || s == "paused");
-              }
-            } else {
-              std::string e = id(media_player_entity).state;
-              can_skip = !e.empty() && id(media_player_state_sensor).has_state();
-              if (can_skip) {
-                std::string s = id(media_player_state_sensor).state;
-                can_skip = (s == "playing" || s == "paused");
-              }
-            }
-            if (can_skip) {
-              if (dx > 0) {
-                id(swipe_previous_track).execute();
-              } else {
-                id(swipe_next_track).execute();
-              }
-            }
-          }
-          // Tap: minimal movement anywhere on screen — toggle UI visibility
-          // Excludes the on-screen control button (play/pause).
-          // If screen was dimmed, just wake it (don't hide the UI).
-          // Tap swaps between thumbnail-only and the now-playing overlay.
-          else if (abs(dx) < 20 && abs(dy) < 20) {
-            int sx = id(touch_x_start);
-            // Ignore taps on the on-screen control buttons (so they don't toggle the UI)
-            auto in_widget = [&](lv_obj_t *obj) -> bool {
-              lv_area_t a;
-              lv_obj_get_coords(obj, &a);
-              return sx >= a.x1 && sx <= a.x2 && sy >= a.y1 && sy <= a.y2;
-            };
-            if (!id(is_ui_hidden) && in_widget(id(media_play_pause_button))) {
-              return;
-            }
-            if (id(was_screen_dimmed)) {
-              // Screen was dimmed — wake only, don't toggle
-            } else {
-              id(toggle_ui).execute();
-            }
-          }
+          // No gesture handling here.
+          // Touch controls are limited to the on-screen LVGL buttons.
 
 
 # -----------------------------------------------------------------------------
@@ -522,6 +458,10 @@ script:
       - lvgl.label.update:
           id: media_title_label
           text: !lambda 'return id(media_source_sensor).state;'
+      - lvgl.label.update:
+          id: fallback_title_label
+          text: !lambda 'return id(media_source_sensor).state;'
+      - lvgl.widget.hide: fallback_title_label
       - lambda: 'id(artist_has_content) = false;'
       - lvgl.widget.hide: media_artist_label
       - lvgl.widget.hide: artwork_error_label
@@ -540,8 +480,10 @@ script:
             - lvgl.widget.hide: media_time_label
             - lvgl.widget.hide: media_progress_bar
             - lvgl.widget.hide: album_art_background_widget
+            - lvgl.widget.show: fallback_title_label
             - script.execute: backlight_wake_timeout
           else:
+            - lvgl.widget.hide: fallback_title_label
             - if:
                 condition:
                   lambda: |-
@@ -607,6 +549,7 @@ script:
           lv_obj_set_style_bg_color(id(artwork_bg_panel), lv_color_make(0, 0, 0), 0);
           lv_obj_set_size(id(album_art_background_widget), 480, 480);
           lv_obj_set_pos(id(album_art_background_widget), 0, 0);
+      - lvgl.widget.hide: fallback_title_label
       - if:
           condition:
             lambda: 'return !id(is_ui_hidden);'

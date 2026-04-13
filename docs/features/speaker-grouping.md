@@ -2,8 +2,6 @@
 
 Control multi-room speaker groups directly from the touchscreen panel. The settings panel (swipe down) shows a speaker list on the right side where you can add or remove speakers from the group and adjust individual volumes.
 
-![Speaker grouping panel](/images/guition-esp32-p4-jc8012p4a1-multi-speaker.jpg)
-
 > [!WARNING]
 > This feature is in **beta**. If you encounter any issues, please [open an issue on GitHub](https://github.com/jtenniswood/esphome-media-player/issues).
 

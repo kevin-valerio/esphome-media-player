@@ -30,25 +30,6 @@ packages:
     refresh: 1s
 ```
 
-### ESP32-P4 JC8012P4A1 (10.1")
-
-```yaml
-substitutions:
-  name: "music-dashboard-10inch"
-  friendly_name: "Music Dashboard 10inch"
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-
-packages:
-  music_dashboard:
-    url: https://github.com/jtenniswood/esphome-media-player
-    files: [guition-esp32-p4-jc8012p4a1/packages.yaml]
-    ref: main
-    refresh: 1s
-```
-
 ## Available substitutions
 
 These substitutions can be added to the `substitutions:` block in your configuration to override the defaults.
@@ -63,7 +44,7 @@ These substitutions can be added to the `substitutions:` block in your configura
 | `ha_port`         | `"8123"`                | Port that Home Assistant is running on                                     |
 | `ha_protocol`     | `"http"`                | Protocol for artwork requests — `"http"` or `"https"`                      |
 | `ha_verify_ssl`   | `"true"`                | Verify SSL certificate — set to `"false"` for self-signed or local CA certs |
-| `display_rotation` | `"0"` (S3) / `"90"` (P4) | Display rotation in degrees. See [Display Rotation](/advanced/display-rotation).  |
-| `touch_swap_xy`   | `"false"` (S3 default)  | Touch X/Y swap — required at **90°** and **270°** on ESP32-S3; on ESP32-P4 see [rotation tables](/advanced/display-rotation). |
+| `display_rotation` | `"0"`                  | Display rotation in degrees. See [Display Rotation](/advanced/display-rotation).  |
+| `touch_swap_xy`   | `"false"`               | Touch X/Y swap — required at **90°** and **270°** rotation on ESP32-S3. |
 | `touch_mirror_x`  | `"false"`               | Touch X-axis mirror — must match `display_rotation`. See [rotation tables](/advanced/display-rotation). |
 | `touch_mirror_y`  | `"false"`               | Touch Y-axis mirror — must match `display_rotation`. See [rotation tables](/advanced/display-rotation). |

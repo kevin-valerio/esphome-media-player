@@ -2,10 +2,6 @@
 
 A touchscreen media controller for Home Assistant: album art, track info, and touch controls for any media player in your smart home. Built with [ESPHome](https://esphome.io/) and [LVGL](https://lvgl.io/).
 
-![Guition ESP32-P4 JC8012P4A1](./images/guition-esp32-p4-jc8012p4a1-example1.jpg)
-
-[Guition ESP32-P4 JC8012P4A1 (10.1")](/devices/esp32-p4-jc8012p4a1)
-
 ![Guition ESP32-S3 4848S040](./images/guition-esp32-s3-4848s040-example1.jpg)
 
 ![Guition ESP32-S3 4848S040](./images/guition-esp32-s3-4848s040-example2.jpg)
@@ -66,10 +62,6 @@ The device checks for new firmware automatically and can install updates over-th
 When playback is paused, the device dims the screen after a configurable delay, then either shows a clock or turns the screen off. An optional clock screen saver displays the time in large digits on a black background — it drifts subtly to prevent burn-in. Brightness levels and behavior adjust automatically between day and night. Any touch or new media playback instantly wakes the screen.
 
 See [Screen Saver](/features/screen-saver) for full details and settings.
-
-### Screen tone (ESP32-P4)
-
-Album art can be shifted toward warmer colors for a more comfortable viewing experience. Separate day and night warmth sliders follow the same day/night detection used by the screen saver, so the display can look neutral during the day and warmer at night. See [Settings](/features/settings#screen-tone) to configure.
 
 ## Support This Project
 

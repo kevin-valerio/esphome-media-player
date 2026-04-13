@@ -1,6 +1,6 @@
 # ESPHome Media Controller for Home Assistant
 
-A touchscreen media controller that shows full-screen album art and (on tap) track info, and lets you control play/pause, swipe to skip tracks, and volume from any Home Assistant media player. Supports **4"** and **10.1"** panels. Built with [ESPHome](https://esphome.io/) and [LVGL](https://lvgl.io/); tested with Google and Sonos speakers.
+A touchscreen media controller that shows full-screen album art and lets you control media from any Home Assistant media player. Supports the **4"** panel. Built with [ESPHome](https://esphome.io/) and [LVGL](https://lvgl.io/); tested with Google and Sonos speakers.
 
 ![guition-esp32-s3-4848s040](docs/images/guition-esp32-s3-4848s040-example1.jpg)
 
@@ -10,8 +10,8 @@ A touchscreen media controller that shows full-screen album art and (on tap) tra
 
 - **Album art** — Full-screen cover art from Home Assistant, with smooth transitions between tracks
 - **Accent color** — Dominant color extracted from album art, applied to the UI and exposed as an HA light entity
-- **Now playing** — Title, artist, elapsed/remaining time, and progress bar
-- **Touch controls** — Tap to show/hide the now-playing overlay, play/pause, swipe for next/previous, volume arc dial (swipe down)
+- **Now playing** — 4" shows cover-only UI; if artwork is unavailable, it shows the track title
+- **Touch controls** — 4": volume down, volume up, next track buttons (over the cover art)
 - **Linked media player** — Automatically shows now-playing from a linked media player when the speaker switches to a TV or Line-in input
 - **Screensaver** — Day/night aware dimming and screen-off when paused
 - **Configurable from Home Assistant** — Media player, brightness, timeouts, track info duration; no reflashing
@@ -26,7 +26,6 @@ A touchscreen media controller that shows full-screen album art and (on tap) tra
 | Device | Size | Buy |
 |--------|------|-----|
 | [Guition ESP32-S3 4848S040](https://jtenniswood.github.io/esphome-media-player/devices/esp32-s3-4848s040) | 4" (480×480) | [AliExpress](https://s.click.aliexpress.com/e/_c3sIhvBv) |
-| [Guition ESP32-P4 JC8012P4A1](https://jtenniswood.github.io/esphome-media-player/devices/esp32-p4-jc8012p4a1) | 10.1" (1280×800) | [AliExpress](https://s.click.aliexpress.com/e/_c3wsnU43) |
 
 ---
 
@@ -57,11 +56,6 @@ If you have any feedback or suggestions, please open an [issue](https://github.c
 ---
 
 ## Gallery
-
-### Guition ESP32-P4 (10.1")
-
-![Guition ESP32-P4 example 1](docs/images/guition-esp32-p4-jc8012p4a1-example1.jpg)
-![Guition ESP32-P4 example 2](docs/images/guition-esp32-p4-jc8012p4a1-example2.jpg)
 
 ### Guition ESP32-S3 4848S040 (4")
 

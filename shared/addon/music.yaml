@@ -61,6 +61,7 @@ script:
     mode: restart
     then:
       - lvgl.widget.hide: artwork_error_label
+      - lvgl.widget.hide: fallback_title_label
       - lambda: 'id(artwork_retry_pending) = false;'
       - lambda: |-
           auto *img = id(is_tv_mode) ? id(tv_art_background) : id(album_art_background);
@@ -110,6 +111,7 @@ script:
       - lvgl.widget.update:
           id: album_art_background_widget
           opa: 0%
+      - lvgl.widget.show: fallback_title_label
       - if:
           condition:
             lambda: 'return !id(artwork_retry_pending);'

@@ -42,6 +42,9 @@ text_sensor:
             - lvgl.label.update:
                 id: media_title_label
                 text: !lambda 'return x.empty() ? std::string("\xe2\x80\x94") : x;'
+            - lvgl.label.update:
+                id: fallback_title_label
+                text: !lambda 'return x.empty() ? std::string("\xe2\x80\x94") : x;'
             - if:
                 condition:
                   lambda: 'return id(tv_title_received_once);'
@@ -103,6 +106,7 @@ text_sensor:
             - lvgl.widget.update:
                 id: album_art_background_widget
                 opa: 50%
+            - lvgl.widget.hide: fallback_title_label
             - lvgl.widget.hide: artwork_error_label
             - delay: 50ms
             - online_image.set_url:
@@ -110,7 +114,7 @@ text_sensor:
                 url: !lambda 'return id(last_tv_artwork_url);'
       - if:
           condition:
-            lambda: 'return id(is_tv_mode) && x.empty() && !id(last_tv_artwork_url).empty();'
+            lambda: 'return id(is_tv_mode) && x.empty();'
           then:
             - lambda: 'id(last_tv_artwork_url) = "";'
             - lvgl.image.update:
@@ -118,7 +122,8 @@ text_sensor:
                 src: album_art_placeholder
             - lvgl.widget.update:
                 id: album_art_background_widget
-                opa: 50%
+                opa: 0%
+            - lvgl.widget.show: fallback_title_label
 
   - platform: template
     id: tv_media_player_state_sensor
@@ -148,12 +153,16 @@ text_sensor:
                   - lvgl.label.update:
                       id: media_title_label
                       text: !lambda 'return id(media_source_sensor).state;'
+                  - lvgl.label.update:
+                      id: fallback_title_label
+                      text: !lambda 'return id(media_source_sensor).state;'
                   - lambda: 'id(artist_has_content) = false;'
                   - lvgl.widget.hide: media_artist_label
                   - lvgl.widget.hide: media_play_pause_button
                   - lvgl.widget.hide: media_time_label
                   - lvgl.widget.hide: media_progress_bar
                   - lvgl.widget.hide: album_art_background_widget
+                  - lvgl.widget.show: fallback_title_label
                   - script.execute: backlight_wake_timeout
                 else:
                   - script.execute: exit_tv_mode
@@ -186,6 +195,7 @@ text_sensor:
                               - lvgl.widget.show: media_play_pause_button
                         - lvgl.widget.show: media_time_label
                         - lvgl.widget.show: album_art_background_widget
+                        - lvgl.widget.hide: fallback_title_label
                         - if:
                             condition:
                               lambda: |-

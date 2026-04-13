@@ -1,6 +1,6 @@
 # Display Rotation
 
-Both devices support display rotation for different mounting orientations (for example to change which side the power cable exits from). Set `display_rotation` and update `touch_swap_xy` / `touch_mirror_x` / `touch_mirror_y` to match.
+The ESP32-S3 4848S040 supports display rotation for different mounting orientations (for example to change which side the power cable exits from). Set `display_rotation` and update `touch_swap_xy` / `touch_mirror_x` / `touch_mirror_y` to match.
 
 ::: warning
 If you set `display_rotation` without updating the touch transform values, the screen image will be rotated but taps will register in the wrong position.
@@ -62,36 +62,3 @@ packages:
     ref: main
     refresh: 1s
 ```
-
-## ESP32-P4 JC8012P4A1
-
-The rectangular display defaults to landscape orientation and supports a 180° flip for alternate mounting. To flip 180°, override `display_rotation` and touch mirrors:
-
-| `display_rotation` | `touch_swap_xy` | `touch_mirror_x` | `touch_mirror_y` |
-| ------------------- | --------------- | ----------------- | ----------------- |
-| `"90"` (default)    | `"true"`        | `"false"`         | `"false"`         |
-| `"270"`             | `"true"`        | `"true"`          | `"true"`          |
-
-### Example: 180-degree rotation
-
-```yaml
-substitutions:
-  name: "music-dashboard-10inch"
-  friendly_name: "Music Dashboard 10inch"
-  display_rotation: "270"
-  touch_swap_xy: "true"
-  touch_mirror_x: "true"
-  touch_mirror_y: "true"
-
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-
-packages:
-  music_dashboard:
-    url: https://github.com/jtenniswood/esphome-media-player
-    files: [guition-esp32-p4-jc8012p4a1/packages.yaml]
-    ref: main
-    refresh: 1s
-```
-

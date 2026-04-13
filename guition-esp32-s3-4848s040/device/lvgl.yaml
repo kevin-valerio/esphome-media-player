@@ -55,6 +55,122 @@ lvgl:
             src: album_art_background
             opa: 100%
 
+        # Minimal media controls (always visible)
+        - obj:
+            id: minimal_controls
+            align: bottom_mid
+            y: -16
+            width: 480
+            height: 80
+            bg_opa: 0%
+            border_width: 0
+            pad_all: 0
+            scrollable: false
+            clickable: false
+            layout:
+              type: flex
+              flex_flow: ROW
+              flex_align_main: center
+              flex_align_cross: center
+              pad_column: 16
+            widgets:
+              - button:
+                  id: minimal_volume_down_button
+                  width: 72px
+                  height: 72px
+                  styles: control_round
+                  widgets:
+                    - label:
+                        text_font: $icon_font
+                        align: center
+                        text: $icon_minus
+                        text_color: 0xFFFFFF
+                  on_press:
+                    - homeassistant.service:
+                        service: media_player.volume_set
+                        variables:
+                          target: !lambda 'return id(media_player_entity).state;'
+                          vol_level: !lambda |-
+                            float v = id(media_volume_sensor).has_state() ? id(media_volume_sensor).state : 0.0f;
+                            v -= 0.01f;
+                            if (v < 0.0f) v = 0.0f;
+                            return v;
+                        data_template:
+                          entity_id: "{{ target }}"
+                          volume_level: "{{ vol_level }}"
+                        on_error:
+                          - lambda: |-
+                              if (!id(actions_prompt_acked) && !id(device_has_been_setup)) {
+                                lv_obj_clear_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN);
+                              }
+              - button:
+                  id: minimal_volume_up_button
+                  width: 72px
+                  height: 72px
+                  styles: control_round
+                  widgets:
+                    - label:
+                        text_font: $icon_font
+                        align: center
+                        text: $icon_plus
+                        text_color: 0xFFFFFF
+                  on_press:
+                    - homeassistant.service:
+                        service: media_player.volume_set
+                        variables:
+                          target: !lambda 'return id(media_player_entity).state;'
+                          vol_level: !lambda |-
+                            float v = id(media_volume_sensor).has_state() ? id(media_volume_sensor).state : 0.0f;
+                            v += 0.01f;
+                            if (v > 1.0f) v = 1.0f;
+                            return v;
+                        data_template:
+                          entity_id: "{{ target }}"
+                          volume_level: "{{ vol_level }}"
+                        on_error:
+                          - lambda: |-
+                              if (!id(actions_prompt_acked) && !id(device_has_been_setup)) {
+                                lv_obj_clear_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN);
+                              }
+              - button:
+                  id: minimal_next_track_button
+                  width: 72px
+                  height: 72px
+                  styles: control_round
+                  widgets:
+                    - label:
+                        text_font: $icon_font
+                        align: center
+                        text: $next_track
+                        text_color: 0xFFFFFF
+                  on_press:
+                    - homeassistant.service:
+                        service: media_player.media_next_track
+                        variables:
+                          target: !lambda |-
+                            return id(is_tv_mode) ? id(linked_media_player_entity).state : id(media_player_entity).state;
+                        data_template:
+                          entity_id: "{{ target }}"
+                        on_error:
+                          - lambda: |-
+                              if (!id(actions_prompt_acked) && !id(device_has_been_setup)) {
+                                lv_obj_clear_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN);
+                              }
+
+        # Fallback title: shown when artwork is missing/unavailable
+        - label:
+            id: fallback_title_label
+            text: "—"
+            x: 24
+            y: 80
+            width: 432
+            max_height: 280px
+            long_mode: wrap
+            text_font: roboto_light70_font
+            text_color: 0xFFFFFF
+            text_align: left
+            hidden: true
+
         # Error label: shown when album art download fails
         - label:
             id: artwork_error_label

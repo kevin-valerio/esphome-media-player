@@ -1,7 +1,5 @@
 # Source Inputs
 
-![TV Source](../images/guition-esp32-p4-jc8012p4a1-tvsource.jpg)
-
 If your speaker has a source input — such as a **TV** (soundbars like Sonos Beam or Arc with HDMI) or **Line-in** (speakers and amps like Sonos Five, Play:5, Port, or Amp with a 3.5mm/RCA input) — the controller can display now-playing info from the media player connected to that input. This feature is entirely optional — the controller works without it.
 
 > [!WARNING]

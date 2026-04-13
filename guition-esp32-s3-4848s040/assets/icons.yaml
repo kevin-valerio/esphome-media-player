@@ -10,6 +10,7 @@ font:
     glyphs:
       - "\U000F040A"  # mdi-play
       - "\U000F03E4"  # mdi-pause
+      - "\U000F04AD"  # mdi-skip-next
       - "\U000F0415"  # mdi-plus
       - "\U000F0374"  # mdi-minus
       - "\U000F05A9"  # mdi-wifi
