@@ -249,6 +249,22 @@ globals:
     restore_value: true
     initial_value: 'false'
 
+  # -- Volume buttons (15% step, multi-speaker group) --
+  - id: volume_step_count
+    type: int
+    initial_value: '0'
+  - id: volume_step_index
+    type: int
+    initial_value: '0'
+  - id: volume_step_entities
+    type: std::string[16]
+  - id: volume_step_target_entity
+    type: std::string
+    initial_value: '""'
+  - id: volume_step_target_level
+    type: float
+    initial_value: '0.0f'
+
 
 
 # -----------------------------------------------------------------------------
@@ -401,6 +417,103 @@ script:
                   lv_obj_clear_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN);
                 }
       - logger.log: "Media: previous_track"
+
+  # -- Group volume +/- (15% per press) --
+  - id: volume_step_all_speakers
+    mode: restart
+    parameters:
+      direction: int
+    then:
+      - lambda: |-
+          // Base entity is always the primary (Sonos) media player, even in TV mode.
+          std::string selected = id(media_player_entity).state;
+          if (selected.empty()) {
+            id(volume_step_count) = 0;
+            return;
+          }
+
+          // group_members arrives as a comma-separated string of entity IDs (or empty).
+          std::string raw = id(group_members_sensor).has_state()
+              ? id(group_members_sensor).state
+              : "";
+
+          // Strip Python-style list brackets and quotes if present.
+          while (!raw.empty() && (raw.front() == '[' || raw.front() == '\'' || raw.front() == '"' || raw.front() == ' '))
+            raw.erase(0, 1);
+          while (!raw.empty() && (raw.back() == ']' || raw.back() == '\'' || raw.back() == '"' || raw.back() == ' '))
+            raw.pop_back();
+
+          auto is_media_player_entity = [](const std::string &eid) {
+            return !eid.empty() && eid.rfind("media_player.", 0) == 0;
+          };
+          auto add_unique = [&](std::vector<std::string> &out, const std::string &eid) {
+            if (!is_media_player_entity(eid)) return;
+            for (auto &e : out) {
+              if (e == eid) return;
+            }
+            if (out.size() < 16) out.push_back(eid);
+          };
+
+          std::vector<std::string> targets;
+          add_unique(targets, selected);
+
+          // Parse comma-separated group members
+          size_t start = 0, end;
+          while ((end = raw.find(',', start)) != std::string::npos) {
+            std::string token = raw.substr(start, end - start);
+            while (!token.empty() && (token.front() == ' ' || token.front() == '\'' || token.front() == '"'))
+              token.erase(0, 1);
+            while (!token.empty() && (token.back() == ' ' || token.back() == '\'' || token.back() == '"'))
+              token.pop_back();
+            add_unique(targets, token);
+            start = end + 1;
+          }
+          if (start < raw.size()) {
+            std::string token = raw.substr(start);
+            while (!token.empty() && (token.front() == ' ' || token.front() == '\'' || token.front() == '"'))
+              token.erase(0, 1);
+            while (!token.empty() && (token.back() == ' ' || token.back() == '\'' || token.back() == '"'))
+              token.pop_back();
+            add_unique(targets, token);
+          }
+
+          // Compute new volume level (0.0 - 1.0), step is 15% per click.
+          float current = id(media_volume_sensor).has_state() ? id(media_volume_sensor).state : 0.0f;
+          float delta = (direction > 0) ? 0.15f : -0.15f;
+          float next = current + delta;
+          if (next < 0.0f) next = 0.0f;
+          if (next > 1.0f) next = 1.0f;
+          id(volume_step_target_level) = next;
+
+          // Store targets for the service loop below.
+          id(volume_step_count) = (int) targets.size();
+          for (int i = 0; i < 16; i++) id(volume_step_entities)[i] = "";
+          for (int i = 0; i < id(volume_step_count); i++) id(volume_step_entities)[i] = targets[i];
+          id(volume_step_index) = 0;
+
+      - while:
+          condition:
+            lambda: |-
+              int i = id(volume_step_index);
+              if (i < 0 || i >= id(volume_step_count)) return false;
+              id(volume_step_target_entity) = id(volume_step_entities)[i];
+              id(volume_step_index) = i + 1;
+              return true;
+          then:
+            - homeassistant.service:
+                service: media_player.volume_set
+                variables:
+                  target: !lambda 'return id(volume_step_target_entity);'
+                  vol_level: !lambda 'return id(volume_step_target_level);'
+                data_template:
+                  entity_id: "{{ target }}"
+                  volume_level: "{{ vol_level }}"
+                on_error:
+                  - logger.log:
+                      level: ERROR
+                      tag: volume_step
+                      format: "Failed to set volume"
+            - delay: 120ms
 
   # -- Settings panel (called by vertical swipe gestures) --
   - id: open_settings_panel

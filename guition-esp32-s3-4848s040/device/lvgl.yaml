@@ -61,7 +61,7 @@ lvgl:
             align: bottom_mid
             y: -16
             width: 480
-            height: 96
+            height: 104
             bg_opa: 0%
             border_width: 0
             pad_all: 0
@@ -76,8 +76,8 @@ lvgl:
             widgets:
               - button:
                   id: minimal_volume_down_button
-                  width: 96px
-                  height: 96px
+                  width: 104px
+                  height: 104px
                   styles: control_round
                   widgets:
                     - label:
@@ -90,24 +90,18 @@ lvgl:
                         lv_obj_set_style_bg_color(id(minimal_volume_down_button), lv_color_make(255, 140, 0), LV_PART_MAIN);
                         lv_obj_set_style_bg_color(id(minimal_volume_down_button), lv_color_make(255, 140, 0), LV_PART_MAIN | LV_STATE_PRESSED);
                         lv_obj_invalidate(id(minimal_volume_down_button));
-                    - homeassistant.service:
-                        service: script.turn_on
-                        data:
-                          entity_id: script.sonos_volume_down_all
-                        on_error:
-                          - lambda: |-
-                              if (!id(actions_prompt_acked) && !id(device_has_been_setup)) {
-                                lv_obj_clear_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN);
-                              }
-                    - delay: 120ms
+                    - script.execute:
+                        id: volume_step_all_speakers
+                        direction: -1
+                    - delay: 250ms
                     - lambda: |-
                         lv_obj_set_style_bg_color(id(minimal_volume_down_button), lv_color_make(49, 49, 49), LV_PART_MAIN);
                         lv_obj_set_style_bg_color(id(minimal_volume_down_button), lv_color_make(49, 49, 49), LV_PART_MAIN | LV_STATE_PRESSED);
                         lv_obj_invalidate(id(minimal_volume_down_button));
               - button:
                   id: minimal_volume_up_button
-                  width: 96px
-                  height: 96px
+                  width: 104px
+                  height: 104px
                   styles: control_round
                   widgets:
                     - label:
@@ -120,24 +114,18 @@ lvgl:
                         lv_obj_set_style_bg_color(id(minimal_volume_up_button), lv_color_make(255, 140, 0), LV_PART_MAIN);
                         lv_obj_set_style_bg_color(id(minimal_volume_up_button), lv_color_make(255, 140, 0), LV_PART_MAIN | LV_STATE_PRESSED);
                         lv_obj_invalidate(id(minimal_volume_up_button));
-                    - homeassistant.service:
-                        service: script.turn_on
-                        data:
-                          entity_id: script.sonos_volume_up_all
-                        on_error:
-                          - lambda: |-
-                              if (!id(actions_prompt_acked) && !id(device_has_been_setup)) {
-                                lv_obj_clear_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN);
-                              }
-                    - delay: 120ms
+                    - script.execute:
+                        id: volume_step_all_speakers
+                        direction: 1
+                    - delay: 250ms
                     - lambda: |-
                         lv_obj_set_style_bg_color(id(minimal_volume_up_button), lv_color_make(49, 49, 49), LV_PART_MAIN);
                         lv_obj_set_style_bg_color(id(minimal_volume_up_button), lv_color_make(49, 49, 49), LV_PART_MAIN | LV_STATE_PRESSED);
                         lv_obj_invalidate(id(minimal_volume_up_button));
               - button:
                   id: minimal_next_track_button
-                  width: 96px
-                  height: 96px
+                  width: 104px
+                  height: 104px
                   styles: control_round
                   widgets:
                     - label:
@@ -162,7 +150,7 @@ lvgl:
                               if (!id(actions_prompt_acked) && !id(device_has_been_setup)) {
                                 lv_obj_clear_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN);
                               }
-                    - delay: 120ms
+                    - delay: 250ms
                     - lambda: |-
                         lv_obj_set_style_bg_color(id(minimal_next_track_button), lv_color_make(49, 49, 49), LV_PART_MAIN);
                         lv_obj_set_style_bg_color(id(minimal_next_track_button), lv_color_make(49, 49, 49), LV_PART_MAIN | LV_STATE_PRESSED);

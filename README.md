@@ -12,7 +12,7 @@ A touchscreen media controller that shows full-screen album art and lets you con
 - **Accent color** — Dominant color extracted from album art, applied to the UI and exposed as an HA light entity
 - **Now playing** — 4" shows cover-only UI; if artwork is unavailable, it shows the track title
 - **Touch controls** — 4": volume down, volume up, next track buttons (bottom of the screen)
-- **SoCo (Sonos, optional)** — Group volume helper based on SoCo (changes all group speakers by **15%** per click)
+- **Sonos group volume** — Volume +/- sets all grouped speakers by **15%** per click
 - **Linked media player** — Automatically shows now-playing from a linked media player when the speaker switches to a TV or Line-in input
 - **Screensaver** — Day/night aware dimming and screen-off when paused
 - **Configurable from Home Assistant** — Media player, brightness, timeouts, track info duration; no reflashing
@@ -64,7 +64,9 @@ Install it by copying `homeassistant/custom_components/soco_remote` into your Ho
 
 Note: the upstream firmware auto-updater overwrites custom firmware. In this fork it’s disabled for the 4" build (see `guition-esp32-s3-4848s040/packages.yaml`). Update the device using `esphome upload ...` (OTA) instead.
 
-If you want the ESP32 volume buttons to control the Sonos group volume, add 2 scripts to your Home Assistant `scripts.yaml` (replace `f6bc10` with your device suffix):
+Note: the ESP32 firmware in this fork does **not** require SoCo to do group volume — it uses the Sonos `group_members` attribute and calls `media_player.volume_set` for each member.
+
+If you still want to use the SoCo-based approach, add 2 scripts to your Home Assistant `scripts.yaml` (replace `f6bc10` with your device suffix):
 
 ```yaml
 sonos_volume_up_all:
@@ -113,20 +115,17 @@ Main files:
 
 Problem:
 
-- `media_player.volume_set` only updates the **coordinator** entity, not every speaker that is playing in the Sonos group.
+- The volume slider in the original firmware worked for a single speaker, but volume +/- was unreliable when trying to control a whole Sonos group.
 
-Fix:
+Fix (current firmware):
 
-- Added a tiny Home Assistant custom integration: `homeassistant/custom_components/soco_remote`
+- The ESP32 volume buttons now set **volume_level ±0.15** (15%) for **every member** in the Sonos `group_members` attribute using `media_player.volume_set`.
+- Implementation: `volume_step_all_speakers` script in `guition-esp32-s3-4848s040/device/device.yaml`
+
+SoCo (still included, optional):
+
+- There is also an optional Home Assistant custom integration: `homeassistant/custom_components/soco_remote`
 - It uses the Python library `SoCo` to apply **±15%** volume to **all visible group members** of the target speaker.
-
-How the ESP32 calls it:
-
-- The ESP32 volume buttons call Home Assistant scripts:
-  - `script.sonos_volume_up_all`
-  - `script.sonos_volume_down_all`
-- Those scripts call `soco_remote.volume_up` / `soco_remote.volume_down` using the media player currently selected on the ESP32:
-  - Example: `text.media_player_f6bc10_media_player` → `media_player.salon_tv`
 
 ### Preventing “reverting” to upstream firmware
 
