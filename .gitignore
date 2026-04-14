@@ -14,3 +14,7 @@ agents.md
 # Docs (VitePress)
 node_modules/
 docs/.vitepress/dist/
+
+# Python
+__pycache__/
+*.pyc

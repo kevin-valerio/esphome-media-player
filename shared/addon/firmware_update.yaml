@@ -20,7 +20,7 @@ globals:
 update:
   - platform: http_request
     id: firmware_update
-    name: Firmware Update
+    name: Firmware Update (Upstream)
     source: https://jtenniswood.github.io/esphome-media-player/firmware/media-player-${firmware_manifest_slug}.manifest.json
     update_interval: never
     on_update_available:
@@ -33,11 +33,11 @@ update:
 
 switch:
   - platform: template
-    name: "Auto Update"
+    name: "Auto Update (Upstream)"
     id: auto_update_switch
     icon: "mdi:update"
     optimistic: true
-    restore_mode: RESTORE_DEFAULT_ON
+    restore_mode: RESTORE_DEFAULT_OFF
 
 select:
   - platform: template
@@ -69,7 +69,7 @@ interval:
 
 button:
   - platform: template
-    name: Install Latest Firmware
+    name: Install Latest Firmware (Upstream)
     icon: "mdi:update"
     on_press:
       - script.execute: check_firmware_update

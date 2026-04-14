@@ -275,10 +275,10 @@ text_sensor:
               id(last_artwork_url) = new_url;
               return true;
           then:
-            - lvgl.widget.hide: fallback_title_label
+            - lvgl.widget.show: fallback_title_label
             - lvgl.widget.update:
                 id: album_art_background_widget
-                opa: 50%
+                opa: 0%
             - script.execute: debounce_artwork_download
       - if:
           condition:

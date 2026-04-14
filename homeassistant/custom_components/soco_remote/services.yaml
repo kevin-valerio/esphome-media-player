@@ -1,0 +1,29 @@
+volume_up:
+  name: Volume up
+  description: Increase Sonos volume by 15% using SoCo (applies to all visible members of the target speaker group).
+  fields:
+    entity_id:
+      name: Media player
+      description: Target `media_player` entity (Sonos).
+      required: true
+      example: "media_player.living_room"
+
+volume_down:
+  name: Volume down
+  description: Decrease Sonos volume by 15% using SoCo (applies to all visible members of the target speaker group).
+  fields:
+    entity_id:
+      name: Media player
+      description: Target `media_player` entity (Sonos).
+      required: true
+      example: "media_player.living_room"
+
+next_track:
+  name: Next track
+  description: Skip to the next track using SoCo (speaker is resolved from the media_player entity name).
+  fields:
+    entity_id:
+      name: Media player
+      description: Target `media_player` entity (Sonos).
+      required: true
+      example: "media_player.living_room"

@@ -1,0 +1,9 @@
+{
+  "domain": "soco_remote",
+  "name": "SoCo Remote (Sonos)",
+  "version": "0.1.0",
+  "documentation": "https://github.com/jtenniswood/esphome-media-player",
+  "requirements": ["soco>=0.30.0"],
+  "codeowners": []
+}
+

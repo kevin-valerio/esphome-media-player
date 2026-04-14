@@ -53,7 +53,7 @@ lvgl:
             width: 480px
             height: 480px
             src: album_art_background
-            opa: 100%
+            opa: 0%
 
         # Minimal media controls (always visible)
         - obj:
@@ -61,12 +61,12 @@ lvgl:
             align: bottom_mid
             y: -16
             width: 480
-            height: 80
+            height: 96
             bg_opa: 0%
             border_width: 0
             pad_all: 0
             scrollable: false
-            clickable: false
+            clickable: true
             layout:
               type: flex
               flex_flow: ROW
@@ -76,8 +76,8 @@ lvgl:
             widgets:
               - button:
                   id: minimal_volume_down_button
-                  width: 72px
-                  height: 72px
+                  width: 96px
+                  height: 96px
                   styles: control_round
                   widgets:
                     - label:
@@ -86,27 +86,28 @@ lvgl:
                         text: $icon_minus
                         text_color: 0xFFFFFF
                   on_press:
+                    - lambda: |-
+                        lv_obj_set_style_bg_color(id(minimal_volume_down_button), lv_color_make(255, 140, 0), LV_PART_MAIN);
+                        lv_obj_set_style_bg_color(id(minimal_volume_down_button), lv_color_make(255, 140, 0), LV_PART_MAIN | LV_STATE_PRESSED);
+                        lv_obj_invalidate(id(minimal_volume_down_button));
                     - homeassistant.service:
-                        service: media_player.volume_set
-                        variables:
-                          target: !lambda 'return id(media_player_entity).state;'
-                          vol_level: !lambda |-
-                            float v = id(media_volume_sensor).has_state() ? id(media_volume_sensor).state : 0.0f;
-                            v -= 0.01f;
-                            if (v < 0.0f) v = 0.0f;
-                            return v;
-                        data_template:
-                          entity_id: "{{ target }}"
-                          volume_level: "{{ vol_level }}"
+                        service: script.turn_on
+                        data:
+                          entity_id: script.sonos_volume_down_all
                         on_error:
                           - lambda: |-
                               if (!id(actions_prompt_acked) && !id(device_has_been_setup)) {
                                 lv_obj_clear_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN);
                               }
+                    - delay: 120ms
+                    - lambda: |-
+                        lv_obj_set_style_bg_color(id(minimal_volume_down_button), lv_color_make(49, 49, 49), LV_PART_MAIN);
+                        lv_obj_set_style_bg_color(id(minimal_volume_down_button), lv_color_make(49, 49, 49), LV_PART_MAIN | LV_STATE_PRESSED);
+                        lv_obj_invalidate(id(minimal_volume_down_button));
               - button:
                   id: minimal_volume_up_button
-                  width: 72px
-                  height: 72px
+                  width: 96px
+                  height: 96px
                   styles: control_round
                   widgets:
                     - label:
@@ -115,27 +116,28 @@ lvgl:
                         text: $icon_plus
                         text_color: 0xFFFFFF
                   on_press:
+                    - lambda: |-
+                        lv_obj_set_style_bg_color(id(minimal_volume_up_button), lv_color_make(255, 140, 0), LV_PART_MAIN);
+                        lv_obj_set_style_bg_color(id(minimal_volume_up_button), lv_color_make(255, 140, 0), LV_PART_MAIN | LV_STATE_PRESSED);
+                        lv_obj_invalidate(id(minimal_volume_up_button));
                     - homeassistant.service:
-                        service: media_player.volume_set
-                        variables:
-                          target: !lambda 'return id(media_player_entity).state;'
-                          vol_level: !lambda |-
-                            float v = id(media_volume_sensor).has_state() ? id(media_volume_sensor).state : 0.0f;
-                            v += 0.01f;
-                            if (v > 1.0f) v = 1.0f;
-                            return v;
-                        data_template:
-                          entity_id: "{{ target }}"
-                          volume_level: "{{ vol_level }}"
+                        service: script.turn_on
+                        data:
+                          entity_id: script.sonos_volume_up_all
                         on_error:
                           - lambda: |-
                               if (!id(actions_prompt_acked) && !id(device_has_been_setup)) {
                                 lv_obj_clear_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN);
                               }
+                    - delay: 120ms
+                    - lambda: |-
+                        lv_obj_set_style_bg_color(id(minimal_volume_up_button), lv_color_make(49, 49, 49), LV_PART_MAIN);
+                        lv_obj_set_style_bg_color(id(minimal_volume_up_button), lv_color_make(49, 49, 49), LV_PART_MAIN | LV_STATE_PRESSED);
+                        lv_obj_invalidate(id(minimal_volume_up_button));
               - button:
                   id: minimal_next_track_button
-                  width: 72px
-                  height: 72px
+                  width: 96px
+                  height: 96px
                   styles: control_round
                   widgets:
                     - label:
@@ -144,6 +146,10 @@ lvgl:
                         text: $next_track
                         text_color: 0xFFFFFF
                   on_press:
+                    - lambda: |-
+                        lv_obj_set_style_bg_color(id(minimal_next_track_button), lv_color_make(255, 140, 0), LV_PART_MAIN);
+                        lv_obj_set_style_bg_color(id(minimal_next_track_button), lv_color_make(255, 140, 0), LV_PART_MAIN | LV_STATE_PRESSED);
+                        lv_obj_invalidate(id(minimal_next_track_button));
                     - homeassistant.service:
                         service: media_player.media_next_track
                         variables:
@@ -156,6 +162,11 @@ lvgl:
                               if (!id(actions_prompt_acked) && !id(device_has_been_setup)) {
                                 lv_obj_clear_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN);
                               }
+                    - delay: 120ms
+                    - lambda: |-
+                        lv_obj_set_style_bg_color(id(minimal_next_track_button), lv_color_make(49, 49, 49), LV_PART_MAIN);
+                        lv_obj_set_style_bg_color(id(minimal_next_track_button), lv_color_make(49, 49, 49), LV_PART_MAIN | LV_STATE_PRESSED);
+                        lv_obj_invalidate(id(minimal_next_track_button));
 
         # Fallback title: shown when artwork is missing/unavailable
         - label:
@@ -169,7 +180,7 @@ lvgl:
             text_font: roboto_light70_font
             text_color: 0xFFFFFF
             text_align: left
-            hidden: true
+            hidden: false
 
         # Error label: shown when album art download fails
         - label:
