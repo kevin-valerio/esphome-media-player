@@ -11,8 +11,7 @@ A touchscreen media controller that shows full-screen album art and lets you con
 - **Album art** — Full-screen cover art from Home Assistant, with smooth transitions between tracks
 - **Accent color** — Dominant color extracted from album art, applied to the UI and exposed as an HA light entity
 - **Now playing** — 4" shows cover-only UI; if artwork is unavailable, it shows the track title
-- **Touch controls** — 4": volume down, volume up, next track buttons (bottom of the screen)
-- **Sonos group volume** — Volume +/- sets all grouped speakers by **15%** per click
+- **Touch controls** — 4": next track button (bottom of the screen)
 - **Linked media player** — Automatically shows now-playing from a linked media player when the speaker switches to a TV or Line-in input
 - **Screensaver** — Day/night aware dimming and screen-off when paused
 - **Configurable from Home Assistant** — Media player, brightness, timeouts, track info duration; no reflashing
@@ -64,7 +63,7 @@ Install it by copying `homeassistant/custom_components/soco_remote` into your Ho
 
 Note: the upstream firmware auto-updater overwrites custom firmware. In this fork it’s disabled for the 4" build (see `guition-esp32-s3-4848s040/packages.yaml`). Update the device using `esphome upload ...` (OTA) instead.
 
-Note: the ESP32 firmware in this fork does **not** require SoCo to do group volume — it uses the Sonos `group_members` attribute and calls `media_player.volume_set` for each member.
+Note: the current ESP32 UI in this fork has no volume buttons (volume +/- was unreliable), so this SoCo helper is optional and not used by the device UI.
 
 If you still want to use the SoCo-based approach, add 2 scripts to your Home Assistant `scripts.yaml` (replace `f6bc10` with your device suffix):
 
@@ -97,7 +96,7 @@ This repo is a customized fork (based on `jtenniswood/esphome-media-player`) for
 The now-playing screen was simplified to only show:
 
 - Full-screen album art
-- 3 buttons at the bottom: **volume -**, **volume +**, **next track**
+- 1 button at the bottom: **next track**
 
 Behavior:
 
@@ -115,12 +114,11 @@ Main files:
 
 Problem:
 
-- The volume slider in the original firmware worked for a single speaker, but volume +/- was unreliable when trying to control a whole Sonos group.
+- The volume slider in the original firmware worked for a single speaker, but we could not get reliable volume +/- buttons on the minimal UI.
 
-Fix (current firmware):
+Current status:
 
-- The ESP32 volume buttons now set **volume_level ±0.15** (15%) for **every member** in the Sonos `group_members` attribute using `media_player.volume_set`.
-- Implementation: `volume_step_all_speakers` script in `guition-esp32-s3-4848s040/device/device.yaml`
+- Volume +/- buttons were removed from the minimal UI.
 
 SoCo (still included, optional):
 
