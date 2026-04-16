@@ -9,6 +9,9 @@ substitutions:
 
 esphome:
   name_add_mac_suffix: true
+  project:
+    name: jtenniswood.media-player
+    version: "1.0"
 
 packages:
   music_dashboard: !include ../guition-esp32-s3-4848s040/packages.yaml

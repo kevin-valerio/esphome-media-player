@@ -148,6 +148,10 @@ What we changed:
 esphome upload builds/guition-esp32-s3-4848s040.yaml --device 192.168.178.37
 ```
 
+- ESPHome log clients are now ignored for Home Assistant setup/subscription flow.
+  This avoids `esphome logs` hiding the HA prompt or re-running media subscriptions
+  as if it were Home Assistant.
+
 ### Home Assistant Docker notes (this machine)
 
 - Container: `homeassistant` (`ghcr.io/home-assistant/homeassistant:stable`)
