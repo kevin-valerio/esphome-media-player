@@ -374,23 +374,19 @@ script:
             - lambda: 'id(is_ui_hidden) = false;'
             - lvgl.widget.show: accent_overlay
             - lvgl.widget.show: track_info_text
-            - lvgl.widget.show: media_play_pause_button
             - lvgl.widget.show: media_progress_bar
             - lambda: |-
                 if (id(artist_has_content)) lv_obj_clear_flag(id(media_artist_label), LV_OBJ_FLAG_HIDDEN);
                 lv_obj_fade_in(id(accent_overlay), 200, 0);
                 lv_obj_fade_in(id(track_info_text), 200, 0);
-                lv_obj_fade_in(id(media_play_pause_button), 200, 0);
           else:
             - lambda: 'id(is_ui_hidden) = true;'
             - lambda: |-
                 lv_obj_fade_out(id(accent_overlay), 300, 0);
                 lv_obj_fade_out(id(track_info_text), 300, 0);
-                lv_obj_fade_out(id(media_play_pause_button), 300, 0);
             - delay: 400ms
             - lvgl.widget.hide: accent_overlay
             - lvgl.widget.hide: track_info_text
-            - lvgl.widget.hide: media_play_pause_button
             - lvgl.widget.hide: media_progress_bar
             - lvgl.widget.hide: media_artist_label
   # -- Track navigation (horizontal swipe; allowed when playing or paused) --
@@ -577,6 +573,7 @@ script:
           lv_obj_set_style_bg_color(id(accent_overlay), lv_color_make(0, 0, 0), 0);
           lv_obj_set_style_bg_color(id(artwork_bg_panel), lv_color_make(0, 0, 0), 0);
           lv_obj_set_style_bg_color(id(media_play_pause_button), lv_color_make(0, 0, 0), 0);
+          lv_obj_set_style_bg_color(id(media_play_pause_button), lv_color_make(0, 0, 0), LV_PART_MAIN | LV_STATE_PRESSED);
       - lvgl.label.update:
           id: media_title_label
           text: !lambda 'return id(media_source_sensor).state;'
@@ -669,16 +666,12 @@ script:
           id(is_tv_mode) = false;
           id(is_tv_idle) = false;
           lv_obj_set_style_bg_color(id(artwork_bg_panel), lv_color_make(0, 0, 0), 0);
+          lv_obj_set_style_bg_color(id(media_play_pause_button), lv_color_make(49, 49, 49), 0);
+          lv_obj_set_style_bg_color(id(media_play_pause_button), lv_color_make(49, 49, 49), LV_PART_MAIN | LV_STATE_PRESSED);
           lv_obj_set_size(id(album_art_background_widget), 480, 480);
           lv_obj_set_pos(id(album_art_background_widget), 0, 0);
       - lvgl.widget.hide: fallback_title_label
-      - if:
-          condition:
-            lambda: 'return !id(is_ui_hidden);'
-          then:
-            - lvgl.widget.show: media_play_pause_button
-          else:
-            - lvgl.widget.hide: media_play_pause_button
+      - lvgl.widget.show: media_play_pause_button
       - lvgl.widget.show: media_time_label
       - lvgl.label.update:
           id: media_title_label

@@ -55,59 +55,6 @@ lvgl:
             src: album_art_background
             opa: 0%
 
-        # Minimal media controls (always visible)
-        - obj:
-            id: minimal_controls
-            align: bottom_mid
-            y: -16
-            width: 480
-            height: 104
-            bg_opa: 0%
-            border_width: 0
-            pad_all: 0
-            scrollable: false
-            clickable: true
-            layout:
-              type: flex
-              flex_flow: ROW
-              flex_align_main: center
-              flex_align_cross: center
-              pad_column: 16
-            widgets:
-              - button:
-                  id: minimal_next_track_button
-                  width: 104px
-                  height: 104px
-                  styles: control_round
-                  widgets:
-                    - label:
-                        text_font: $icon_font
-                        align: center
-                        text: $next_track
-                        text_color: 0xFFFFFF
-                  on_press:
-                    - lambda: |-
-                        lv_obj_set_style_bg_color(id(minimal_next_track_button), lv_color_make(255, 140, 0), LV_PART_MAIN);
-                        lv_obj_set_style_bg_color(id(minimal_next_track_button), lv_color_make(255, 140, 0), LV_PART_MAIN | LV_STATE_PRESSED);
-                        lv_obj_invalidate(id(minimal_next_track_button));
-                    - homeassistant.service:
-                        service: media_player.media_next_track
-                        variables:
-                          target: !lambda |-
-                            return id(is_tv_mode) ? id(linked_media_player_entity).state : id(media_player_entity).state;
-                        data_template:
-                          entity_id: "{{ target }}"
-                        on_error:
-                          - lambda: |-
-                              if (!id(actions_prompt_acked) && !id(device_has_been_setup)) {
-                                lv_obj_clear_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN);
-                              }
-                    - delay: 250ms
-                    - lambda: |-
-                        lv_obj_set_style_bg_color(id(minimal_next_track_button), lv_color_make(49, 49, 49), LV_PART_MAIN);
-                        lv_obj_set_style_bg_color(id(minimal_next_track_button), lv_color_make(49, 49, 49), LV_PART_MAIN | LV_STATE_PRESSED);
-                        lv_obj_invalidate(id(minimal_next_track_button));
-
         # Fallback title: shown when artwork is missing/unavailable
         - label:
             id: fallback_title_label
@@ -209,45 +156,93 @@ lvgl:
                   on_click:
                     - switch.toggle: show_remaining_time
 
-        # Play/pause: 96px round, bottom-right corner
-        - button:
-            id: media_play_pause_button
+        # Minimal media controls (always visible)
+        - obj:
+            id: minimal_controls
             align: bottom_right
             x: -24
-            y: -30
-            width: 96px
-            height: 96px
-            styles: control_round
-            hidden: true
+            y: -16
+            width: 76px
+            height: 164px
+            bg_opa: 0%
+            border_width: 0
+            pad_all: 0
+            scrollable: false
+            clickable: false
+            layout:
+              type: flex
+              flex_flow: COLUMN
+              flex_align_main: end
+              flex_align_cross: end
+              pad_row: 12
             widgets:
-              - label:
-                  id: media_play_icon
-                  text_font: icon_font_large
-                  align: center
-                  text: $play
-                  text_color: 0xFFFFFF
-                  hidden: false
-              - label:
-                  id: media_pause_icon
-                  text_font: icon_font_large
-                  align: center
-                  text: $pause
-                  text_color: 0xFFFFFF
-                  hidden: true
-            on_press:
-              - homeassistant.service:
-                  service: media_player.media_play_pause
-                  variables:
-                    target: !lambda |-
-                      return id(is_tv_mode) ? id(linked_media_player_entity).state : id(media_player_entity).state;
-                  data_template:
-                    entity_id: "{{ target }}"
-                  on_error:
+              - button:
+                  id: media_play_pause_button
+                  width: 76px
+                  height: 76px
+                  styles: control_round
+                  widgets:
+                    - label:
+                        id: media_play_icon
+                        text_font: $icon_font
+                        align: center
+                        text: $play
+                        text_color: 0xFFFFFF
+                        hidden: false
+                    - label:
+                        id: media_pause_icon
+                        text_font: $icon_font
+                        align: center
+                        text: $pause
+                        text_color: 0xFFFFFF
+                        hidden: true
+                  on_press:
+                    - homeassistant.service:
+                        service: media_player.media_play_pause
+                        variables:
+                          target: !lambda |-
+                            return id(is_tv_mode) ? id(linked_media_player_entity).state : id(media_player_entity).state;
+                        data_template:
+                          entity_id: "{{ target }}"
+                        on_error:
+                          - lambda: |-
+                              if (!id(actions_prompt_acked) && !id(device_has_been_setup)) {
+                                lv_obj_clear_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN);
+                              }
+                    - logger.log: "Media: play_pause"
+              - button:
+                  id: minimal_next_track_button
+                  width: 76px
+                  height: 76px
+                  styles: control_round
+                  widgets:
+                    - label:
+                        text_font: $icon_font
+                        align: center
+                        text: $next_track
+                        text_color: 0xFFFFFF
+                  on_press:
                     - lambda: |-
-                        if (!id(actions_prompt_acked) && !id(device_has_been_setup)) {
-                          lv_obj_clear_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN);
-                        }
-              - logger.log: "Media: play_pause"
+                        lv_obj_set_style_bg_color(id(minimal_next_track_button), lv_color_make(255, 140, 0), LV_PART_MAIN);
+                        lv_obj_set_style_bg_color(id(minimal_next_track_button), lv_color_make(255, 140, 0), LV_PART_MAIN | LV_STATE_PRESSED);
+                        lv_obj_invalidate(id(minimal_next_track_button));
+                    - homeassistant.service:
+                        service: media_player.media_next_track
+                        variables:
+                          target: !lambda |-
+                            return id(is_tv_mode) ? id(linked_media_player_entity).state : id(media_player_entity).state;
+                        data_template:
+                          entity_id: "{{ target }}"
+                        on_error:
+                          - lambda: |-
+                              if (!id(actions_prompt_acked) && !id(device_has_been_setup)) {
+                                lv_obj_clear_flag(id(actions_prompt), LV_OBJ_FLAG_HIDDEN);
+                              }
+                    - delay: 250ms
+                    - lambda: |-
+                        lv_obj_set_style_bg_color(id(minimal_next_track_button), lv_color_make(49, 49, 49), LV_PART_MAIN);
+                        lv_obj_set_style_bg_color(id(minimal_next_track_button), lv_color_make(49, 49, 49), LV_PART_MAIN | LV_STATE_PRESSED);
+                        lv_obj_invalidate(id(minimal_next_track_button));
 
         # Progress bar: full screen width, at the very bottom of the screen
         - bar:

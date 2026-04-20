@@ -11,7 +11,7 @@ A touchscreen media controller that shows full-screen album art and lets you con
 - **Album art** — Full-screen cover art from Home Assistant, with smooth transitions between tracks
 - **Accent color** — Dominant color extracted from album art, applied to the UI and exposed as an HA light entity
 - **Now playing** — 4" shows cover-only UI; if artwork is unavailable, it shows the track title
-- **Touch controls** — 4": next track button (bottom of the screen)
+- **Touch controls** — 4": play/pause and next buttons stacked in the bottom-right corner
 - **Linked media player** — Automatically shows now-playing from a linked media player when the speaker switches to a TV or Line-in input
 - **Screensaver** — Day/night aware dimming and screen-off when paused
 - **Configurable from Home Assistant** — Media player, brightness, timeouts, track info duration; no reflashing
@@ -93,14 +93,11 @@ This repo is a customized fork (based on `jtenniswood/esphome-media-player`) for
 
 ### UI changes (ESP32)
 
-The now-playing screen was simplified to only show:
-
-- Full-screen album art
-- 1 button at the bottom: **next track**
+The now-playing screen was simplified to only show full-screen album art, plus 2 buttons in the bottom-right corner: **play/pause** and **next track**.
 
 Behavior:
 
-- Buttons are slightly bigger and flash **orange** on press.
+- The **next track** button flashes **orange** on press.
 - If album art is missing or can’t load (common with local MP3), the screen shows the **track title** instead of an empty cover.
 
 Main files:
