@@ -44,7 +44,4 @@ These substitutions can be added to the `substitutions:` block in your configura
 | `ha_port`         | `"8123"`                | Port that Home Assistant is running on                                     |
 | `ha_protocol`     | `"http"`                | Protocol for artwork requests — `"http"` or `"https"`                      |
 | `ha_verify_ssl`   | `"true"`                | Verify SSL certificate — set to `"false"` for self-signed or local CA certs |
-| `display_rotation` | `"0"`                  | Display rotation in degrees. See [Display Rotation](/advanced/display-rotation).  |
-| `touch_swap_xy`   | `"false"`               | Touch X/Y swap — required at **90°** and **270°** rotation on ESP32-S3. |
-| `touch_mirror_x`  | `"false"`               | Touch X-axis mirror — must match `display_rotation`. See [rotation tables](/advanced/display-rotation). |
-| `touch_mirror_y`  | `"false"`               | Touch Y-axis mirror — must match `display_rotation`. See [rotation tables](/advanced/display-rotation). |
+| `display_rotation` | `"0"`                  | Display and touch rotation in degrees. See [Display Rotation](/advanced/display-rotation). |

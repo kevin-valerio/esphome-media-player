@@ -1,21 +1,17 @@
 # Display Rotation
 
-The ESP32-S3 4848S040 supports display rotation for different mounting orientations (for example to change which side the power cable exits from). Set `display_rotation` and update `touch_swap_xy` / `touch_mirror_x` / `touch_mirror_y` to match.
-
-::: warning
-If you set `display_rotation` without updating the touch transform values, the screen image will be rotated but taps will register in the wrong position.
-:::
+The ESP32-S3 4848S040 supports display rotation for different mounting orientations (for example to change which side the power cable exits from). Set `display_rotation`; LVGL rotates the display and touch input together.
 
 ## ESP32-S3 4848S040
 
-The 480×480 square display supports all four rotations. At **90°** and **270°** you need **`touch_swap_xy: "true"`** so horizontal swipes are not read as vertical (otherwise the settings panel / volume strip opens on a left–right swipe). Mirroring differs between 90° and 270°.
+The 480×480 square display supports all four rotations.
 
-| `display_rotation` | `touch_swap_xy` | `touch_mirror_x` | `touch_mirror_y` |
-| ------------------- | ---------------- | ----------------- | ----------------- |
-| `"0"` (default)     | `"false"`        | `"false"`         | `"false"`         |
-| `"90"`              | `"true"`         | `"false"`         | `"true"`          |
-| `"180"`             | `"false"`        | `"true"`          | `"true"`          |
-| `"270"`             | `"true"`         | `"true"`          | `"false"`         |
+| `display_rotation` | Orientation |
+| ------------------- | ----------- |
+| `"0"` (default)     | Default panel orientation |
+| `"90"`              | Rotated 90 degrees |
+| `"180"`             | Rotated 180 degrees |
+| `"270"`             | Rotated 270 degrees |
 
 ### Example: 90-degree rotation
 
@@ -24,9 +20,6 @@ substitutions:
   name: "music-dashboard"
   friendly_name: "Music Dashboard"
   display_rotation: "90"
-  touch_swap_xy: "true"
-  touch_mirror_x: "false"
-  touch_mirror_y: "true"
 
 wifi:
   ssid: !secret wifi_ssid
@@ -47,9 +40,6 @@ substitutions:
   name: "music-dashboard"
   friendly_name: "Music Dashboard"
   display_rotation: "270"
-  touch_swap_xy: "true"
-  touch_mirror_x: "true"
-  touch_mirror_y: "false"
 
 wifi:
   ssid: !secret wifi_ssid

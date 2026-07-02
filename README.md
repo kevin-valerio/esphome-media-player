@@ -138,16 +138,20 @@ What we changed:
 ### Local deploy notes (this workspace)
 
 - ESPHome build file: `builds/guition-esp32-s3-4848s040.yaml`
-- OTA target (device IP): `192.168.178.37`
+- OTA target (device IP): `192.168.1.109`
 - Upload command:
 
 ```bash
-esphome upload builds/guition-esp32-s3-4848s040.yaml --device 192.168.178.37
+esphome upload builds/guition-esp32-s3-4848s040.yaml --device 192.168.1.109
 ```
 
 - ESPHome log clients are now ignored for Home Assistant setup/subscription flow.
   This avoids `esphome logs` hiding the HA prompt or re-running media subscriptions
   as if it were Home Assistant.
+- Display rotation now uses the LVGL `rotation` setting, so ESPHome 2026.4+
+  rotates the screen and touch input together.
+- Artwork images use LVGL 9's little-endian RGB565 byte order; accent color
+  extraction reads the same byte order.
 
 ### Home Assistant Docker notes (this machine)
 

@@ -6,6 +6,7 @@
 # =============================================================================
 
 lvgl:
+  rotation: ${display_rotation}
   buffer_size: 25%
   on_boot:
     - lambda: |-

@@ -2,7 +2,9 @@
 secrets.yaml
 .esphome/
 agents.md
+.serena/
 .venv/
+.venv-esphome-*/
 
 # macOS
 .DS_Store

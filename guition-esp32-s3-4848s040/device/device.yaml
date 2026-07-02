@@ -281,7 +281,7 @@ globals:
 # -----------------------------------------------------------------------------
 # The GT911 is the touch controller chip on this display.
 # It detects finger touches and reports X/Y coordinates.
-# - display: Links to the display so touch coordinates match screen position
+# - display: Links to the display so LVGL can match touch coordinates
 #
 # Touch events are automatically forwarded to LVGL for button presses.
 # Swipe detection: on_touch stores start position, on_update tracks the
@@ -291,11 +291,6 @@ touchscreen:
   - platform: gt911
     id: tft_touch
     display: my_display
-    # Touch transform must match display_rotation (0/90/180/270); see packages.yaml
-    transform:
-      swap_xy: ${touch_swap_xy}
-      mirror_x: ${touch_mirror_x}
-      mirror_y: ${touch_mirror_y}
     on_touch:
       - lambda: |-
           id(was_screen_dimmed) = id(is_screen_dimmed);
@@ -735,7 +730,6 @@ display:
   - platform: mipi_rgb
     model: GUITION-4848S040
     id: my_display
-    rotation: ${display_rotation}  # 0/90/180/270 (see docs/advanced/display-rotation.md)
     pclk_frequency: 8MHz
     update_interval: never
     auto_clear_enabled: False
