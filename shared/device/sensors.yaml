@@ -402,15 +402,24 @@ text_sensor:
   - platform: template
     id: media_source_sensor
     on_value:
+      - lambda: |-
+          if (x == "Line-in") {
+            lv_obj_add_state(id(media_input_button), LV_STATE_CHECKED);
+          } else {
+            lv_obj_clear_state(id(media_input_button), LV_STATE_CHECKED);
+          }
       - if:
           condition:
             lambda: |-
-              return (x == "TV" || x == "Line-in") && !id(is_tv_mode);
+              return (x == "TV" || (x == "Line-in" && !id(linked_media_player_entity).state.empty()))
+                  && !id(is_tv_mode);
           then:
             - script.execute: enter_tv_mode
       - if:
           condition:
-            lambda: 'return x != "TV" && x != "Line-in" && id(is_tv_mode);'
+            lambda: |-
+              return x != "TV" && (x != "Line-in" || id(linked_media_player_entity).state.empty())
+                  && id(is_tv_mode);
           then:
             - script.execute: exit_tv_mode
 

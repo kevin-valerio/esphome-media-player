@@ -49,7 +49,7 @@ The [documentation site](https://jtenniswood.github.io/esphome-media-player/) ha
 
 ---
 
-## Optional: SoCo helper (Sonos)
+## Sonos controls (SoCo)
 
 This repo includes a tiny Home Assistant custom integration at `homeassistant/custom_components/soco_remote` that exposes these services:
 
@@ -63,7 +63,16 @@ Install it by copying `homeassistant/custom_components/soco_remote` into your Ho
 
 Note: the upstream firmware auto-updater overwrites custom firmware. In this fork it’s disabled for the 4" build (see `guition-esp32-s3-4848s040/packages.yaml`). Update the device using `esphome upload ...` (OTA) instead.
 
-Note: the current ESP32 UI in this fork has no volume buttons (volume +/- was unreliable), so this SoCo helper is optional and not used by the device UI.
+The top-left record player button uses `soco_remote.toggle_line_in`. Tap it to play vinyl on the selected Sonos group. Tap again to resume the previous music and track position. Orange means line-in is selected. Volume and speaker groups stay as they are.
+
+Set `line_in_host` to the speaker physically connected to the turntable, including when it is the right speaker of a stereo pair. This workspace uses the Salon input named "Platine vinyle":
+
+```yaml
+soco_remote:
+  line_in_host: 192.168.1.107
+```
+
+The previous music source is kept in Home Assistant memory. After a Home Assistant restart, the button returns to the first track in the Sonos queue. If the queue is empty, start music in Sonos first. AirPlay and cloud playback sessions may need to be restarted from their source app.
 
 If you still want to use the SoCo-based approach, add 2 scripts to your Home Assistant `scripts.yaml` (replace `f6bc10` with your device suffix):
 
@@ -93,7 +102,7 @@ This repo is a customized fork (based on `jtenniswood/esphome-media-player`) for
 
 ### UI changes (ESP32)
 
-The now-playing screen was simplified to only show full-screen album art, plus 2 buttons in the bottom-right corner: **play/pause** and **next track**.
+The now-playing screen shows full-screen album art, a vinyl input button at the top left, and **play/pause** and **next track** at the bottom right.
 
 Behavior:
 
@@ -139,11 +148,15 @@ What we changed:
 
 - ESPHome build file: `builds/guition-esp32-s3-4848s040.yaml`
 - OTA target (device IP): `192.168.1.109`
-- Upload command:
+- Deploy command (compile + OTA):
 
 ```bash
-esphome upload builds/guition-esp32-s3-4848s040.yaml --device 192.168.1.109
+esphome run builds/guition-esp32-s3-4848s040.yaml --device 192.168.1.109
 ```
+
+- Warning: `esphome upload` does not compile. It sends the last binary from
+  `builds/.esphome/build/`, which can silently flash an old firmware.
+The device was updated over OTA on 2026-09-06 with ESPHome 2026.8.1, including the vinyl button and the artwork and touch API changes needed for this ESPHome version.
 
 - ESPHome log clients are now ignored for Home Assistant setup/subscription flow.
   This avoids `esphome logs` hiding the HA prompt or re-running media subscriptions
@@ -159,6 +172,11 @@ esphome upload builds/guition-esp32-s3-4848s040.yaml --device 192.168.1.109
 - Config bind mount: `/Users/kevinvalerio/homeassistant` → `/config`
 - Sonos integration uses static speaker IPs (Docker on macOS can break Sonos discovery):
   - `/Users/kevinvalerio/homeassistant/configuration.yaml`
+- The ESPHome integration also stores a static device IP (no mDNS discovery from
+  Docker on macOS). If the device IP changes, HA keeps trying the old IP and the
+  screen goes black (no media data). Update the host in HA under Settings →
+  Devices & Services → ESPHome, or in `.storage/core.config_entries` (stop the
+  container before editing that file).
 
 ## Feedback
 

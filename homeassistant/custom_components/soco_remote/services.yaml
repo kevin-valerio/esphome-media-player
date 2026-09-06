@@ -18,6 +18,20 @@ volume_down:
       required: true
       example: "media_player.living_room"
 
+toggle_line_in:
+  name: Toggle vinyl input
+  description: Switch the Sonos group to the configured line-in speaker, or resume its previous music. After a Home Assistant restart, return to the Sonos queue.
+  fields:
+    entity_id:
+      name: Media player
+      description: Target Sonos media player.
+      required: true
+      example: "media_player.living_room"
+      selector:
+        entity:
+          integration: sonos
+          domain: media_player
+
 next_track:
   name: Next track
   description: Skip to the next track using SoCo (speaker is resolved from the media_player entity name).

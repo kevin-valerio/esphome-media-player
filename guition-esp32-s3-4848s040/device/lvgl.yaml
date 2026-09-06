@@ -17,7 +17,7 @@ lvgl:
         lv_obj_set_style_pad_top(id(speakers_container), 0, LV_PART_SCROLLBAR);
         lv_obj_set_style_pad_bottom(id(speakers_container), 0, LV_PART_SCROLLBAR);
         lv_indev_t *indev = lv_indev_get_next(NULL);
-        if (indev) indev->driver->scroll_limit = 20;
+        if (indev) lv_indev_set_scroll_limit(indev, 20);
 
   pages:
     - id: main_page
@@ -61,9 +61,9 @@ lvgl:
             id: fallback_title_label
             text: "—"
             x: 24
-            y: 80
+            y: 108
             width: 432
-            max_height: 280px
+            max_height: 252px
             long_mode: wrap
             text_font: roboto_light70_font
             text_color: 0xFFFFFF
@@ -156,6 +156,37 @@ lvgl:
                   text_align: left
                   on_click:
                     - switch.toggle: show_remaining_time
+
+        # Switch the selected Sonos group between vinyl and its previous music.
+        - button:
+            id: media_input_button
+            align: top_left
+            x: 24
+            y: 16
+            width: 76px
+            height: 76px
+            styles: control_round
+            widgets:
+              - label:
+                  text_font: $icon_font
+                  align: center
+                  text: $icon_vinyl
+                  text_color: 0xFFFFFF
+            on_click:
+              - lvgl.widget.disable: media_input_button
+              - homeassistant.service:
+                  service: soco_remote.toggle_line_in
+                  variables:
+                    target: !lambda 'return id(media_player_entity).state;'
+                  data_template:
+                    entity_id: "{{ target }}"
+                  on_success:
+                    - lvgl.widget.enable: media_input_button
+                  on_error:
+                    - lvgl.widget.enable: media_input_button
+                    - logger.log:
+                        level: WARN
+                        format: "Sonos input switch failed; check Home Assistant logs"
 
         # Minimal media controls (always visible)
         - obj:

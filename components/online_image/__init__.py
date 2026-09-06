@@ -8,6 +8,7 @@ from esphome.components.http_request import CONF_HTTP_REQUEST_ID, HttpRequestCom
 from esphome.components.image import (
     IMAGE_TYPE,
     Image_,
+    add_metadata,
     get_image_type_enum,
     get_transparency_enum,
     validate_settings,
@@ -236,6 +237,9 @@ async def to_code(config):
     url = config[CONF_URL]
     width, height = config.get(CONF_RESIZE, (0, 0))
     transparent = get_transparency_enum(config[CONF_TRANSPARENCY])
+    add_metadata(
+        config[CONF_ID], width, height, config[CONF_TYPE], config[CONF_TRANSPARENCY]
+    )
 
     var = cg.new_Pvariable(
         config[CONF_ID],

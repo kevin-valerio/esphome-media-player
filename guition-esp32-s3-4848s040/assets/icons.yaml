@@ -20,6 +20,7 @@ font:
       - "\U000F0502"  # mdi-television
       - "\U000F0D38"  # mdi-speaker-multiple
       - "\U000F0156"  # mdi-close
+      - "\U000F099A"  # mdi-record-player
   - file: 'https://github.com/Templarian/MaterialDesign-Webfont/raw/v7.4.47/fonts/materialdesignicons-webfont.ttf'
     id: icon_font_small
     size: 24
@@ -49,3 +50,4 @@ substitutions:
   tv_icon:       "\U000F0502"
   icon_speakers: "\U000F0D38"
   icon_close:    "\U000F0156"
+  icon_vinyl:    "\U000F099A"
